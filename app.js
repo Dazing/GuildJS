@@ -1,3 +1,4 @@
+console.log('Start up sequence started... \nDefining variables/constants...\n');
 const hostname = '127.0.0.1';
 const port = 3000;
 
