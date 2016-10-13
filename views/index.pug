@@ -1,6 +1,17 @@
-doctype html
-html(lang="en")
-	head
-		title= page_title
-	body
-		h1 Dump
+extends head.pug
+
+block header
+	nav#mainNav.tk-serenity
+		ul
+			li 
+				a(href="#") Home
+			li 
+				a(href="#") Forum
+			li 
+				a(href="#") Calendar
+			li 
+				a(href="#") Warcraft Logs
+block content
+	p content
+block footer
+	p footer

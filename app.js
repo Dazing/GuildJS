@@ -1,16 +1,24 @@
-console.log('Start up sequence started... \nDefining variables/constants...\n');
+// Constants
 const hostname = '127.0.0.1';
 const port = 3000;
 
+// Require (import) libaries.
 var express = require('express');
-var app = express();
-var router = require('./router')
-app.set('view engine', 'pug');
+var router = require('./router');
+var path = require('path');
 
-console.log('var defined');
+// Iniy Express
+var app = express();
+// Set 'Pug' as the view libary
+app.set('view engine', 'pug');
+// Set public folder for static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/', router);
 
-console.log('router defined');
+// ----------------------------------------------------
+// Server functionality
+
 app.listen(3000, function () {
-	console.log('Example app listening on port 3000!');
+	console.log('App listening on port 3000!');
 });
