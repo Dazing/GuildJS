@@ -1,1 +1,1 @@
-DEBUG=express:* node app.js
+DEBUG=express:* nodemon app.js
