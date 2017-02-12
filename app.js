@@ -8,6 +8,7 @@ var router = require('./routers/router');
 var path = require('path');
 var passport_strats = require('./model/passport_strats');
 var passport = require('passport');
+var https = require('https');
 
 // Iniy Express
 var app = express();
