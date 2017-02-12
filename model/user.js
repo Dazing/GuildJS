@@ -1,4 +1,4 @@
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 
@@ -63,7 +63,7 @@ userSchema.methods.findById = function(id, callback) {
 	user.findOne({'_id': id}, function(err, user){
 		callback(err,user);
 	});
-}
+};
 
 userSchema.methods.findByUsername = function(username, callback) {
 	console.log("Findbyusername");
@@ -75,7 +75,7 @@ userSchema.methods.findByUsername = function(username, callback) {
 			return user;
 		}
 	});
-}
+};
 
 userSchema.methods.userExists = function(username, callback) {
 	user.findOne({'username': username}, function(err, user){
@@ -89,13 +89,13 @@ userSchema.methods.userExists = function(username, callback) {
 			return false;
 		}
 	});
-}
+};
 
 userSchema.methods.insertUser = function(username, password) {
 	var userExists = user.schema.methods.userExists(username);
 
 	if (userExists) {
-		throw new Error('User already exists.')
+		throw new Error('User already exists.');
 	}
 
 	var newUser = new user();
@@ -113,7 +113,7 @@ userSchema.methods.insertUser = function(username, password) {
 			console.log(savedUser);
 		}
 	});
-}
+};
 
 
 
