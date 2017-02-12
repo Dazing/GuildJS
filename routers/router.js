@@ -23,8 +23,13 @@ router.get('/login', function(req, res, next) {
 
 router.post('/login', function(req, res, next) {
 	try {
-		var token = user.schema.methods.userLogin(req.body.username);
-		res.json(token);
+		user.schema.methods.userLogin(req.body.username, req.body.password).then(function(result){
+			console.log("token: "+JSON.stringify(result));
+			res.json(result);
+		}, function (err) {
+			console.log("THen Error: "+err);
+			res.json(err)
+		});
 	} catch (e) {
 		res.json({error: e.message});
 	}

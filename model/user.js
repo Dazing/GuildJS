@@ -51,8 +51,10 @@ userSchema.pre('save', function (next) {
 
 var user = mongoose.model('user', userSchema);
 
-userSchema.methods.comparePassword = function (passw, cb) {
-    bcrypt.compare(passw, this.password, function (err, isMatch) {
+userSchema.methods.comparePassword = function (passArg, passStored, cb) {
+console.log("CP - Pass_input: "+passStored);
+    bcrypt.compare(passArg, passStored, function (err, isMatch) {
+		console.log("CP - Pass_input: "+passArg);
         if (err) {
             return cb(err);
         }
@@ -60,32 +62,32 @@ userSchema.methods.comparePassword = function (passw, cb) {
     });
 };
 
-userSchema.methods.userLogin = function(username){
-	user.findOne({
-		username: username
-	}).then( function(err, tmpUser) {
-		console.log("RUNNING PROMISE");
-		if (err) {
-			console.log("Error: "+tmpUser);
-		}
+userSchema.methods.userLogin = function(username, password){
+	return new Promise(function(resolve, reject) {
+		user.findOne({
+			username: username
+		}, function(err, tmpUser) {
+			console.log("Err: "+err+", tmpUser: "+tmpUser);
 
-		if (!tmpUser) {
-			res.send({success: false, msg: 'Authentication failed. User not found.'});
-		} else {
-			// check if password matches
-			user.schema.methods.comparePassword(req.body.password, function (err, isMatch) {
-				if (isMatch && !err) {
-					// if user is found and password is right create a token
-					var token = jwt.encode(tmpUser, config.secret);
-					// return the information including token as JSON
-					console.log(token);
-					return ({success: true, token: 'JWT ' + token});
-				} else {
-					console.log("FAILED AUTH");
-					return({success: false, msg: 'Authentication failed. Wrong password.'});
-				}
-			});
-		}
+			if (err) throw err;
+
+			if (!tmpUser) {
+				reject({success: false, msg: 'Authentication failed. User not found.'});
+			} else {
+				// check if password matches
+				user.schema.methods.comparePassword(password, tmpUser.password, function (err, isMatch) {
+					if (isMatch && !err) {
+						// if user is found and password is right create a token
+						var token = jwt.encode(tmpUser, config.secret);
+						// return the information including token as JSON
+						console.log(token);
+						resolve({success: true, token: 'JWT ' + token});
+					} else {
+						reject({success: false, msg: 'Authentication failed. Wrong password.'});
+					}
+				});
+			}
+		});
 	});
 };
 
