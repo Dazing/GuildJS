@@ -3,30 +3,40 @@ var router = express.Router();
 var pug = require('pug');
 
 var passport = require('passport');
-var Strategy = require('passport-local').Strategy;
 
-// @TODO load from DB
-var title = 'example'
+var user = require('../model/user.js');
+//var users = require('../model/user.js');
+
 
 
 
 // define the home page route
-router.get('/', function(req, res) {
+router.get('/', function(req, res, next) {
 	console.log("get /");
 	res.render('index');
 });
 
 // define the home page route
-router.get('/login', function(req, res) {
+router.get('/login', function(req, res, next) {
 	res.render('login');
 });
 
-router.post('/login',
-  passport.authenticate('local', { successRedirect: '/test',failureRedirect: '/login' }),
-  function(req, res) {
-    res.send('logged in')
-  });
-router.get('/test', function(req,res){
-	res.send('logged in')
+router.post('/login', function(req, res, next) {
+	res.render('login');
 });
+
+router.post('/register', function(req, res, next) {
+	if (!req.body.username || !req.body.password) {
+		res.json({success: false, msg: 'Please provide username and password.'});
+	} else {
+		try {
+			user.schema.methods.insertUser(req.body.username,req.body.password);
+			res.redirect('/');
+		} catch (e) {
+			res.json({error: e.message});
+		}
+	}
+});
+
+
 module.exports = router;

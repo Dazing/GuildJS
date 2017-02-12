@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var eventSchema = new Schema({
+var characterSchema = new Schema({
 	charid: Schema.Types.ObjectId,
 	userid: Schema.Types.ObjectId,
 	name: String,
@@ -9,4 +9,4 @@ var eventSchema = new Schema({
 	region: String
 });
 
-module.exports = mongoose.model('Events', characterSchema);
+module.exports = mongoose.model('Characters', characterSchema);
