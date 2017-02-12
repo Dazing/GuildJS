@@ -24,8 +24,8 @@ router.get('/login', function(req, res, next) {
 router.post('/login', function(req, res, next) {
 	try {
 		user.schema.methods.userLogin(req.body.username, req.body.password).then(function(result){
-			console.log("token: "+JSON.stringify(result));
-			res.json(result);
+			console.log("token: "+JSON.stringify(result.token));
+			res.send(JSON.stringify(result.token));
 		}, function (err) {
 			console.log("THen Error: "+err);
 			res.json(err)

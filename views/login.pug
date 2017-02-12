@@ -3,7 +3,7 @@ extends master.pug
 
 block content
 	div#login_form
-		form
-			input(type="text" placeholder="Username").tk-serenity
-			input(type="password" placeholder="Password").tk-serenity
+		form(method='POST' action='/login')
+			input(name="username" type="text" placeholder="Username").tk-serenity
+			input(name="password" type="password" placeholder="Password").tk-serenity
 			input(type="submit" value="Login").tk-serenity
