@@ -1,6 +1,7 @@
 var passport = require('passport');
 var jwt = require('jwt-simple');
 var JwtStrategy = require('passport-jwt').Strategy;
+var ExtractJwt = require('passport-jwt').ExtractJwt;
 var user = require('../model/user');
 var config = require('../model/config.json');
 
@@ -16,11 +17,12 @@ passport.deserializeUser(function(id, cb) {
 });
 
 
-module.exports = function(passport) {
+//module.exports = function(passport) {
   var opts = {};
   opts.secretOrKey = config.secret;
+  opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
   passport.use('jwt', new JwtStrategy(opts, function(jwt_payload, done) {
-    User.findOne({id: jwt_payload.id}, function(err, user) {
+    user.findOne({id: jwt_payload.id}, function(err, user) {
           if (err) {
               return done(err, false);
           }
@@ -31,4 +33,4 @@ module.exports = function(passport) {
           }
       });
   }));
-};
+//};

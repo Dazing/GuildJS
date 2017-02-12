@@ -4,6 +4,9 @@ var pug = require('pug');
 
 var passport = require('passport');
 
+var jwt = require('jwt-simple');
+var config = require('../model/config.json');
+
 var user = require('../model/user.js');
 var passportStrats = require('../model/passport_strats');
 //var users = require('../model/user.js');
@@ -54,11 +57,11 @@ router.get('/calendar', passport.authenticate('jwt', { session: false}), functio
   var token = getToken(req.headers);
   if (token) {
     var decoded = jwt.decode(token, config.secret);
-    User.findOne({
+    user.findOne({
       username: decoded.username
     }, function(err, user) {
         if (err) throw err;
- 
+
         if (!user) {
           return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
         } else {
@@ -69,7 +72,7 @@ router.get('/calendar', passport.authenticate('jwt', { session: false}), functio
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
 });
- 
+
 getToken = function (headers) {
   if (headers && headers.authorization) {
     var parted = headers.authorization.split(' ');
