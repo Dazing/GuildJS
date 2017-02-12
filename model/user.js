@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
+var jwt = require('jwt-simple');
+var JwtStrategy = require('passport-jwt').Strategy;
+var config = require('../model/config.json');
 
 mongoose.connect('mongodb://localhost/guildjs');
 
@@ -46,7 +49,6 @@ userSchema.pre('save', function (next) {
     }
 });
 
-
 var user = mongoose.model('user', userSchema);
 
 userSchema.methods.comparePassword = function (passw, cb) {
@@ -58,6 +60,34 @@ userSchema.methods.comparePassword = function (passw, cb) {
     });
 };
 
+userSchema.methods.userLogin = function(username){
+	user.findOne({
+		username: username
+	}).then( function(err, tmpUser) {
+		console.log("RUNNING PROMISE");
+		if (err) {
+			console.log("Error: "+tmpUser);
+		}
+
+		if (!tmpUser) {
+			res.send({success: false, msg: 'Authentication failed. User not found.'});
+		} else {
+			// check if password matches
+			user.schema.methods.comparePassword(req.body.password, function (err, isMatch) {
+				if (isMatch && !err) {
+					// if user is found and password is right create a token
+					var token = jwt.encode(tmpUser, config.secret);
+					// return the information including token as JSON
+					console.log(token);
+					return ({success: true, token: 'JWT ' + token});
+				} else {
+					console.log("FAILED AUTH");
+					return({success: false, msg: 'Authentication failed. Wrong password.'});
+				}
+			});
+		}
+	});
+};
 
 userSchema.methods.findById = function(id, callback) {
 	user.findOne({'_id': id}, function(err, user){
