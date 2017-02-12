@@ -8,8 +8,6 @@ var router = require('./routers/router');
 var path = require('path');
 var passport_strats = require('./model/passport_strats');
 
-var passport = require('passport');
-var Strategy = require('passport-local').Strategy;
 
 // Iniy Express
 var app = express();
@@ -46,8 +44,7 @@ passport.use('login', new Strategy(function(email, password, cb){
 		if (user.password != password) { return cb(null, false); }
 		return cb(null, user);
     });
-})
-);
+}));
 
 app.get('/', function(req, res) {
 	console.log("get /");
