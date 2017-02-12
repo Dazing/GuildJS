@@ -5,6 +5,7 @@ var pug = require('pug');
 var passport = require('passport');
 
 var user = require('../model/user.js');
+var passportStrats = require('../model/passport_strats');
 //var users = require('../model/user.js');
 
 
@@ -48,6 +49,39 @@ router.post('/register', function(req, res, next) {
 		}
 	}
 });
+
+router.get('/calendar', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({
+      username: decoded.username
+    }, function(err, user) {
+        if (err) throw err;
+ 
+        if (!user) {
+          return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+        } else {
+          res.json({success: true, msg: 'Welcome in the member area ' + user.username + '!'});
+        }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+});
+ 
+getToken = function (headers) {
+  if (headers && headers.authorization) {
+    var parted = headers.authorization.split(' ');
+    if (parted.length === 2) {
+      return parted[1];
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
 
 
 module.exports = router;
