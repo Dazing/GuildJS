@@ -22,7 +22,27 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-	res.render('login');
+	User.findOne({
+		name: req.body.name
+	}, function(err, user) {
+		if (err) throw err;
+
+		if (!user) {
+			res.send({success: false, msg: 'Authentication failed. User not found.'});
+		} else {
+			// check if password matches
+			user.schema.methods.comparePassword(req.body.password, function (err, isMatch) {
+				if (isMatch && !err) {
+					// if user is found and password is right create a token
+					var token = jwt.encode(user, config.secret);
+					// return the information including token as JSON
+					res.json({success: true, token: 'JWT ' + token});
+				} else {
+					res.send({success: false, msg: 'Authentication failed. Wrong password.'});
+				}
+			});
+		}
+	});
 });
 
 router.post('/register', function(req, res, next) {
