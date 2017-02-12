@@ -57,7 +57,6 @@ div#login_form {
 	position: absolute;
 	right: 70px;
 	top: 60px;
-	visibility: hidden;
 }
 
 div#login_form input[type=text] {
