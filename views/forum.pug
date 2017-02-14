@@ -4,6 +4,12 @@ extends master.pug
 block content
 
 	div.mainWrapper
-		h1 Calendar View
+		h1 Forum view
 
+		ul
+			each section in sections
+				li
+					a(href=domain+"/forum/section/"+section.id)=section.name
+					a(href=domain+"/forum/section/"+section.id+"post/"+section.lastPost.id)=section.lastPost.headline
+					
 block footer
