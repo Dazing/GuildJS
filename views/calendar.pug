@@ -1,9 +1,35 @@
-extends master.pug
+//
+	TODO figure out how to render the calender view
+	events = [
+		{
+			date: val,
+			players: [
+				{
+					id: val,
+					name,
+				}
+			]
+		},
+	]
 
+
+
+extends master.pug
 
 block content
 
 	div.mainWrapper
 		h1 Calendar View
+
+		table
+			tbody
+				tr
+					th Dates:
+					each event in events
+						th HeaderCell
+				each player in rooster
+					tr
+						each event in events
+							td event.player.attendance
 
 block footer
