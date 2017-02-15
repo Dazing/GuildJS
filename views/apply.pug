@@ -3,64 +3,95 @@ extends master.pug
 
 block content
 
-	div.mainWrapper
+	div.mainWrapper.container
 		h1 Apply View
 
-		form(method='POST' action='/apply')
-			h3 Which character are you applying with?
-			input(name="character" type="text" placeholder="Character Name").tk-serenity
-			input(name="server" type="text" placeholder="Server Name").tk-serenity
+		form(method='POST' action='/apply').col.s12
+			div.row
+				h6 Which character are you applying with?
+				div.input-field.col.s6
+					label(for="character") Character
+					input(name="character" type="text").tk-serenity
+				div.input-field.col.s6
+					label(for="server") Server Name
+					input(name="server" type="text").tk-serenity.autocomplete
+			div.row
+				h6 In order for us to contact you, please leave us your Battletag:
+				div.input-field.col.s6
+					label(for="btag") Battlenet Tag
+					input(name="btag" type="text").tk-serenity
 
-			h3 Tell us more about yourself!
-			input(name="name" type="text" placeholder="Johhny Doe").tk-serenity
-			input(name="age" type="text" placeholder="").tk-serenity
+			div.row
+				h6 Tell us more about yourself!
+				div.input-field.col.s6
+					label(for="name") First Name (optional)
+					input(name="name" type="text").tk-serenity
+				div.input-field.col.s6
+					label(for="age") Age (Optional)
+					input(name="age" type="text").tk-serenity
 
-			h3 In order for us to contact you, please leave us your Battletag:
-			input(name="btag" type="text" placeholder="Btag#1234").tk-serenity
+			div.row
+				h6 Tell us a bit about your competence and proficiency with your specs!
+				div.input-field.col.s6
+					label(for="mainspec") Mainspec/Mainrole
+					textarea(name="mainspec" rows="10" ).tk-serenity.materialize-textarea
+				div.input-field.col.s6
+					label(for="offspec") Offspec/Secondary Role
+					textarea(name="offspec" rows="10" ).tk-serenity.materialize-textarea
+			div.row
+				h6 Can you give us a run-down of your previous raiding experience (only content completed when relevant)?
+				textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 Tell us a bit about your competence and proficiency with your main Specialization / Role:
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
+			div.row
+				h6 Could you give us an overview of you previous Guilds history, as well as any specific reasons for leaving them?
+				textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 Do you have a viable raiding Offspec you are competent with and willing to use?
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
+			div.row
+				h6 Why did you choose to apply to Resolve, and what are your expectations?
+				textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 Can you give us a run-down of your previous raiding experience (only content completed when relevant)?
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
+			div.row
+				h6 Please upload a screenshot of your UI (in combat):
+				div.input-field.col.s6
+					label(for="ui_img_url") Imgur URL
+					input(name="ui_img_url" type="text").tk-serenity
+				// Only allow imgur links? Store image?
 
-			h3 Could you give us an overview of you previous Guilds history, as well as any specific reasons for leaving them?
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
+			div.row
+				h6 Please provide a link to any recent logs for raids you have participated in:
+				textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 Why did you choose to apply to Resolve, and what are your expectations?
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
+			div.row
+				h6 Are you a fast learner on new encounters? Do you make efforts to read up and prepare for new fights?
+				textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 Please upload a screenshot of your UI (in combat):
-			// Only allow imgur links? Store image?
+			div.row
+				h6 What are your strong points as a raider, and what do you feel are your weaker points?
+				textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 Please provide a link to any recent logs for raids you have participated in:
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
+			div.row
+				h6 Do you take any steps to continuously improve your game knowledge and improve as a player?
+				textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 Are you a fast learner on new encounters? Do you make efforts to read up and prepare for new fights?
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
+			div.row
+				h6 Can you regularly attend to both raids every week?
+				textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 What are your strong points as a raider, and what do you feel are your weaker points?
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
+			div.row
+				h6 Are there any events in the foreseeable future that could disrupt your ability to raid 	for long periods of time?
+			textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 Do you take any steps to continuously improve your game knowledge and improve as a player?
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
+			div.row
+				h6 Do you have a working microphone and the ability to use it when needed?
+				textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 Can you regularly attend to both raids every week?
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
+			div.row
+				h6 How did you find out about Resolve? Friend reference? Wowprogress? Anything.
+				textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 Are there any events in the foreseeable future that could disrupt your ability to raid for long periods of time?
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
+			div.row
+				h6 Is there anything else you would like to add? No taboos!
+				textarea(name="mainspec" rows="5" ).tk-serenity.materialize-textarea
 
-			h3 Do you have a working microphone and the ability to use it when needed?
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
-
-			h3 How did you find out about Resolve? Friend reference? Wowprogress? Anything.
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
-
-			h3 Is there anything else you would like to add? No taboos!
-			textarea(name="mainspec" rows="5" cols="50").tk-serenity
-
-block footer
+			button(type="submit" name="action").btn.waves-effect.waves-light.right Submit
+				i.material-icons.right send

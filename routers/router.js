@@ -73,6 +73,19 @@ router.get('/calendar', passport.authenticate('jwt', { session: false}), functio
   }
 });
 
+
+router.get('/apply', function(req, res){
+	res.render('apply');
+});
+
+router.post('/apply', function(req, res){
+	res.send('POST from apply recived');
+});
+
+router.get('/forum', function(req, res){
+	res.render('forum');
+});
+
 getToken = function (headers) {
   if (headers && headers.authorization) {
     var parted = headers.authorization.split(' ');

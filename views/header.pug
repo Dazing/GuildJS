@@ -1,19 +1,15 @@
 block header
-	nav#mainNav.tk-serenity
+	div#mainNav.tk-serenity
 		div#navCenter
-			div#navLeft
-				ul
-					li 
-						a(href="#") Home
-					li 
-						a(href="#") Forum
-					li 
-						a(href="#") Calendar
-					li 
-						a(href="#") Warcraft Logs
-			div#navRight
-				ul
-					li 
-						a(href="/login")#login Sign In
-					li 
-						a(href="#") Sign Up
+			nav.nav-extended
+				div.nav-wrapper
+					a(href="/").brand-logo
+					ul.right.hide-on-med-and-down
+						li
+							a(href="/calendar") Calendar
+						li
+							a(href="/#") Forum
+						li
+							a(href="/#") Apply
+						li
+							a(href="/#") Thing

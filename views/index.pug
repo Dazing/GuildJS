@@ -1,22 +1,17 @@
-- var n = 0
-
 extends master.pug
-
 block content
-
-	div.mainWrapper
+	- var n = 0
+	div.mainWrapper.container
 		h1 Home/Index View
-
+		<a href="//www.wowhead.com/item=25697" class="q3" rel="condb=132090&amp;gems=23121&amp;ench=2647&amp;pcs=25695:25696:25697">[Felstalker Bracers]</a>
 		div#newsWrapper
 			div.largeNews
 				h3 Awesome Header
 				p
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-			while n < 3 //change to each?
+			while n < 3
 				- n++
 				div.smallNews
 					h5 Awesomer title
 					p
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...
-
-block footer

@@ -3,11 +3,24 @@ html
 	head
 		title= page_title
 
-		// CSS link
-		link(href="css/master.css",rel="stylesheet")
-
 		// JQuery
 		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+
+		// CSS link
+		link(href="css/master.css", rel="stylesheet")
+
+		// Materialize css
+		link(href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css", rel="stylesheet")
+
+		// Materialize Javascript
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js")
+
+		// Materialize Icons
+		link(href="https://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
+
+		script(type="text/javascript" src="//wow.zamimg.com/widgets/power.js")
+		script
+			var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }
 
 		// Typekit for fonts
 		script(src="https://use.typekit.net/npg0gvz.js")
@@ -21,26 +34,44 @@ html
 
 	body
 		block header
-			
-			nav#mainNav.tk-serenity
+			script $( document ).ready(function(){})
+			div#mainNav.tk-serenity
 				div#navCenter
-					div#navLeft
-						ul
-							li 
-								a(href="#") Home
-							li 
-								a(href="#") Forum
-							li 
-								a(href="#") Calendar
-							li 
-								a(href="#") Warcraft Logs
-					div#navRight
-						ul
-							li 
-								a(href="/login")#login Sign In
-							li 
-								a(href="#") Sign Up
+					nav.nav-extended.blue-grey.darken-3
+						div.nav-wrapper.container
+							a(href="/").brand-logo Resolve
+							a(href="#" data-activates="mobile-demo").button-collapse
+								i.material-icons menu
+							ul.right.hide-on-med-and-down#nav-mobile
+								li
+									a(href="/calendar") Calendar
+								li
+									a(href="/forum") Forum
+								li
+									a(href="/apply") Apply
+								li
+									a(href="/#") Thing
+							ul#mobile-demo.side-nav
+								li
+									a(href="/calendar") Calendar
+								li
+									a(href="/forum") Forum
+								li
+									a(href="/apply") Apply
+								li
+									a(href="/#") Thing
 
-				
+
+
 		block content
 		block footer
+			footer.page-footer
+				div.container
+					div.row
+						div.col.l6.s12
+							h5.white-text Footer content
+							p.grey-text.text-lighten-4
+								You can use rows and columns here to organize your footer content.
+				div.footer-copyright
+					div.container
+						p @ 2017 Copyright text
