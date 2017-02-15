@@ -1,5 +1,5 @@
 /* ---- GENERAL RULES ---- */
-nav#mainNav {
+div#maindiv {
 	clear: both;
 	width: 100%;
 	height: 45px;
@@ -12,33 +12,33 @@ nav#mainNav {
 }
 
 /* ---- Internal Layout ---- */
-nav#mainNav div#navCenter {
+div#maindiv div#divCenter {
 	width: 960px;
 	margin: 0px auto;
 	clear: both;
 }
-nav#mainNav div#navLeft {
+div#maindiv div#divLeft {
 	width: 480px;
 	float: left;
 }
-nav#mainNav div#navRight {
+div#maindiv div#divRight {
 	width: 480;
 	float: right;
 }
 
 /* ---- Styling of Links ---- */
-nav#mainNav ul {
+div#maindiv ul {
     list-style-type: none;
     height: 45px;
 }
 
-nav#mainNav li {
+div#maindiv li {
 	height: 45px;
 	width: 90px;
     display: inline-block;
 }
 
-nav#mainNav li a {
+div#maindiv li a {
 	display: inline-block;
 	height: 45px;
     width: 90px;
