@@ -110,17 +110,20 @@ userSchema.methods.findByUsername = function(username, callback) {
 };
 
 userSchema.methods.userExists = function(username, callback) {
+	console.log("Running userExists: username (input):"+username);
+	var res;
 	user.findOne({'username': username}, function(err, user){
 		if (err) {
-			return false;
+			callback(false);
 		}
 		else if (user) {
-			return true;
+			callback(true);
 		}
 		else {
-			return false;
+			callback(false);
 		}
 	});
+	return res;
 };
 
 userSchema.methods.insertUser = function(username, password) {
@@ -145,6 +148,39 @@ userSchema.methods.insertUser = function(username, password) {
 			console.log(savedUser);
 		}
 	});
+};
+
+
+userSchema.methods.insertTestData = function() {
+	var i = 0;
+	var username = 0;
+	var password = 0;
+
+	while (i < 1) {
+		var newUser = new user();
+
+		newUser.userid = mongoose.Types.ObjectId();
+		newUser.username = "u"+username.toString();
+		newUser.name = "n"+username.toString();
+		newUser.password = "p"+password.toString();
+
+		user.schema.methods.userExists(newUser.username, function(userExists){
+			if (!userExists) {
+				newUser.save(function(err, savedUser){
+					if (err) {
+						console.log(err);
+					}
+					else {
+						console.log(savedUser);
+					}
+				});
+			}
+		});
+
+		username++;
+		password++;
+		i++;
+	}
 };
 
 
