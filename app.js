@@ -22,7 +22,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 
+app.all('/*', function(req, res, next) {
 
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    next();
+
+});
 
 app.use(passport.initialize());
 

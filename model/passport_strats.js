@@ -1,21 +1,10 @@
 var passport = require('passport');
-var jwt = require('jwt-simple');
-var JwtStrategy = require('passport-jwt').Strategy;
-var ExtractJwt = require('passport-jwt').ExtractJwt;
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var user = require('../model/user');
 var config = require('../model/config.json');
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user.id);
-});
 
-passport.deserializeUser(function(id, cb) {
-  db.users.findById(id, function (err, user) {
-    if (err) { return cb(err); }
-    cb(null, user);
-  });
-});
-
+/*
 
 //module.exports = function(passport) {
   var opts = {};
@@ -34,3 +23,23 @@ passport.deserializeUser(function(id, cb) {
       });
   }));
 //};
+*/
+
+passport.use(new GoogleStrategy({
+	clientID: config.googleId,
+	clientSecret: config.googleId,
+	callbackURL: "http://localhost:3000/auth/google/callback",
+	passReqToCallback   : true
+},
+function(accessToken, refreshToken, profile, done) {
+	console.log("Running google strat");
+	process.nextTick(function () {
+
+      // To keep the example simple, the user's Google profile is returned to
+      // represent the logged-in user.  In a typical application, you would want
+      // to associate the Google account with a user record in your database,
+      // and return that user instead.
+      return done(null, profile);
+    });
+}
+));

@@ -4,6 +4,7 @@ extends master.pug
 block content
 	div.container
 		h1 Login
+		a(href='/auth/google') Sign In with Google
 
 		form(method='POST' action='/login').col.s12
 			div.input-field.col.s6

@@ -4,7 +4,6 @@ var pug = require('pug');
 
 var passport = require('passport');
 var passportStrats = require('../model/passport_strats');
-var jwt = require('jwt-simple');
 var config = require('../model/config.json');
 
 var user = require('../model/user.js');
@@ -27,20 +26,16 @@ router.get('/login', function(req, res, next) {
 	res.render('login');
 });
 
-router.post('/login', function(req, res, next) {
-	try {
-		user.schema.methods.userLogin(req.body.username, req.body.password).then(function(result){
-			console.log("token: "+JSON.stringify(result.token));
-			res.render('index',{token:result.token});
-		}, function (err) {
-			console.log("THen Error: "+err);
-			res.json(err)
-		});
-	} catch (e) {
-		res.json({error: e.message});
-	}
+router.get('/auth/google', passport.authenticate('google', { scope: [
+       'https://www.googleapis.com/auth/plus.login',
+       'https://www.googleapis.com/auth/plus.profile.emails.read']
+}));
 
-});
+router.get( '/auth/google/callback',
+    	passport.authenticate( 'google', {
+    		successRedirect: '/',
+    		failureRedirect: '/login'
+}));
 
 router.post('/register', function(req, res, next) {
 	if (!req.body.username || !req.body.password) {
