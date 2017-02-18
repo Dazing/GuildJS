@@ -8,6 +8,7 @@ var jwt = require('jwt-simple');
 var config = require('../model/config.json');
 
 var user = require('../model/user.js');
+var forum = require('../model/forum.js');
 var events = require('../model/events.js');
 
 //var users = require('../model/user.js');
@@ -84,14 +85,24 @@ router.post('/apply', function(req, res){
 });
 
 router.get('/forum', function(req, res){
-	res.render('forum');
+	forum.find(function(err, sections){
+		if (err) {
+			console.log(err);
+		}
+		else {
+			console.log(sections);
+			res.render('forum', {sections: sections});
+		}
+	});
 });
 
 router.get('/testdata', function(req, res){
 	user.schema.methods.insertTestData();
 	events.schema.methods.insertTestData();
+	forum.schema.methods.insertTestData();
 
-	res.render('testdata');
+	res.redirect('/');
+
 });
 
 getToken = function (headers) {
