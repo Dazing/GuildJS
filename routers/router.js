@@ -32,7 +32,7 @@ router.post('/login', function(req, res, next) {
 	try {
 		user.schema.methods.userLogin(req.body.username, req.body.password).then(function(result){
 			console.log("token: "+JSON.stringify(result.token));
-			res.send(JSON.stringify(result.token));
+			res.render('index',{token:result.token});
 		}, function (err) {
 			console.log("THen Error: "+err);
 			res.json(err)
