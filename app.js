@@ -26,11 +26,7 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: false, save
 
 app.use(passport.initialize());
 
-//app.use('/', router);
-
-app.get('/*',function(req,res){
-	res.sendFile(path.join(__dirname,'/my-app/src/index.html'));
-})
+app.use('/', router);
 
 // ----------------------------------------------------
 // Server functionality
