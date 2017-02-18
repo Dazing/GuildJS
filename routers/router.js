@@ -31,9 +31,10 @@ router.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
 
-router.get('/auth/google/callback',function(req, res) {
-    res.json(req);
-  });
+router.get('/auth/google/callback',
+  passport.authenticate('google',{token:"t",refreshToken:"rt",function(){
+	  console.log("derp");
+  }}));
 
 router.post('/register', function(req, res, next) {
 	if (!req.body.username || !req.body.password) {
@@ -83,45 +84,23 @@ router.get('/forum', function(req, res){
 			console.log(err);
 		}
 		else {
-			// console.log(sections);
+			console.log(sections);
 			res.render('forum', {sections: sections});
 		}
 	});
 });
 
 router.get('/forum/section/:id', function(req, res){
-	forum.schema.methods.findById(req.params.id, function(err, section){
+	thread.schema.methods.findBySectionId(req.params.id, function(err, threads){
 		if (err) {
 			console.log(err);
 		}
 		else {
-			var sectionName = section.name;
-			thread.schema.methods.findBySectionId(req.params.id, function(err, threads){
-				if (err) {
-					console.log(err);
-				}
-				else {
-					res.render('section', {sectionName: sectionName, threads: threads});
-				}
-			});
-
+			console.log("finding threads for section: " + req.params.id);
+			console.log(threads);
+			res.render('thread', {threads: threads});
 		}
 	});
-
-});
-
-router.get('/forum/thread/:id', function(req, res){
-
-	thread.schema.methods.findById(req.params.id, function(err, thread){
-		if (err) {
-			console.log(err);
-		}
-		else {
-			res.render('thread', {thread: thread});
-		}
-	});
-
-
 });
 
 router.get('/testdata', function(req, res){

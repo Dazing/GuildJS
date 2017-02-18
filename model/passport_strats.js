@@ -4,11 +4,13 @@ var user = require('../model/user');
 var config = require('../model/config.json');
 
 passport.serializeUser(function(user, done) {
+	console.log("serializeUser");
         done(null, user.id);
     });
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
+		console.log("deserializeUser");
         user.findById(id, function(err, user) {
             done(err, user);
         });
@@ -38,7 +40,7 @@ console.log("gId:"+config.googleId+", gS:"+config.googleSecret);
 passport.use(new GoogleStrategy({
 	clientID: config.googleId,
 	clientSecret: config.googleId,
-	callbackURL: "/auth/google/callback",
+	callbackURL: "http://localhost:3000/auth/google/callback",
 	passReqToCallback   : true
 },
 function(accessToken, refreshToken, profile, done) {
