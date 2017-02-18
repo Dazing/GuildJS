@@ -92,7 +92,7 @@ userSchema.methods.userLogin = function(username, password){
 };
 
 userSchema.methods.findById = function(id, callback) {
-	user.findOne({'_id': id}, function(err, user){
+	user.findOne({'userid': id}, function(err, user){
 		callback(err,user);
 	});
 };
