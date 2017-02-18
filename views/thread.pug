@@ -4,13 +4,9 @@ extends master.pug
 block content
 
 	div.mainWrapper
-		h1 Threads in 
-
+		h1 #{thread.name}
 		ul
-			each thread in threads
-				li
-					h5 #{thread.name}
-					//- a(href="/forum/section/"+section.id)=section.name
-					//- a(href=domain+"/forum/section/"+section.id+"post/"+section.lastPost.id)=section.lastPost.headline
+			each comment in thread.comments
+				p #{comment}
 					
 block footer

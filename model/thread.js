@@ -17,6 +17,10 @@ var threadSchema = new Schema({
 	name: {
 		type: String,
 		required: true,
+	},
+	comments: {
+		type: [String],
+		required: true
 	}
 });
 
@@ -28,6 +32,11 @@ threadSchema.methods.findBySectionId = function(id, callback) {
 	});
 };
 
+threadSchema.methods.findById = function(id, callback) {
+	thread.findOne({'threadid': id}, function(err, thread){
+		callback(err,thread);
+	});
+};
 
 threadSchema.methods.insertTestData = function() {
 	var i = 0;
@@ -46,6 +55,7 @@ threadSchema.methods.insertTestData = function() {
 				newThread.threadid = mongoose.Types.ObjectId();
 				newThread.sectionid = section.sectionid;
 				newThread.name = "thread" + i;
+				newThread.comments = ["first comment", "second comment", "third comment!"];
 
 
 				newThread.save(function(err, savedThread){

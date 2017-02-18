@@ -1,0 +1,15 @@
+extends master.pug
+
+
+block content
+
+	div.mainWrapper
+		h1 Threads in #{sectionName}
+
+		ul
+			each thread in threads
+				li
+					//h5 #{thread.name}
+					a(href="/forum/thread/"+thread.threadid)=thread.name
+					
+block footer
