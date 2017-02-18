@@ -17,7 +17,7 @@ var events = require('../model/events.js');
 
 
 // define the home page route
-router.get('/', function(req, res, next) {
+router.get('/', ensureAuthenticated, function(req, res, next) {
 	console.log("get /");
 	res.render('index');
 });
@@ -27,16 +27,13 @@ router.get('/login', function(req, res, next) {
 	res.render('login');
 });
 
-router.get('/auth/google', passport.authenticate('google', { scope: [
-       'https://www.googleapis.com/auth/plus.login',
-       'https://www.googleapis.com/auth/plus.profile.emails.read']
-}));
+router.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
-router.get( '/auth/google/callback',
-    	passport.authenticate( 'google', {
-    		successRedirect: '/',
-    		failureRedirect: '/login'
-}));
+
+router.get('/auth/google/callback',function(req, res) {
+    res.json(req);
+  });
 
 router.post('/register', function(req, res, next) {
 	if (!req.body.username || !req.body.password) {
@@ -128,5 +125,9 @@ getToken = function (headers) {
   }
 };
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login');
+}
 
 module.exports = router;
