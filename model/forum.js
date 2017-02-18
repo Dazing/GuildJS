@@ -15,6 +15,12 @@ var forumSchema = new Schema({
 
 var forum = mongoose.model('forum', forumSchema);
 
+forumSchema.methods.findById = function(id, callback) {
+	forum.findOne({'sectionid': id}, function(err, section){
+		callback(err,section);
+	});
+};
+
 forumSchema.methods.insertTestData = function() {
 	var i = 0;
 
@@ -36,22 +42,5 @@ forumSchema.methods.insertTestData = function() {
 		i++;
 	}
 };
-
-// userSchema.methods.sectionExists = function(username, callback) {
-// 	console.log("Running sectionExists");
-// 	var res;
-// 	forum.findOne({'username': username}, function(err, user){
-// 		if (err) {
-// 			callback(false);
-// 		}
-// 		else if (user) {
-// 			callback(true);
-// 		}
-// 		else {
-// 			callback(false);
-// 		}
-// 	});
-// 	return res;
-// };
 
 module.exports = forum;

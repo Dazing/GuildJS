@@ -8,6 +8,7 @@ var config = require('../model/config.json');
 
 var user = require('../model/user.js');
 var forum = require('../model/forum.js');
+var thread = require('../model/thread.js');
 var events = require('../model/events.js');
 
 //var users = require('../model/user.js');
@@ -91,10 +92,24 @@ router.get('/forum', function(req, res){
 	});
 });
 
+router.get('/forum/section/:id', function(req, res){
+	thread.schema.methods.findBySectionId(req.params.id, function(err, threads){
+		if (err) {
+			console.log(err);
+		}
+		else {
+			console.log("finding threads for section: " + req.params.id);
+			console.log(threads);
+			res.render('thread', {threads: threads});
+		}
+	});
+});
+
 router.get('/testdata', function(req, res){
-	user.schema.methods.insertTestData();
-	events.schema.methods.insertTestData();
-	forum.schema.methods.insertTestData();
+	// user.schema.methods.insertTestData();
+	// events.schema.methods.insertTestData();
+	// forum.schema.methods.insertTestData();
+	thread.schema.methods.insertTestData();
 
 	res.redirect('/');
 
