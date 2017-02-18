@@ -2,8 +2,15 @@ extends master.pug
 
 
 block content
-	div#login_form
-		form(method='POST' action='/login')
-			input(name="username" type="text" placeholder="Username").tk-serenity
-			input(name="password" type="password" placeholder="Password").tk-serenity
-			input(type="submit" value="Login").tk-serenity
+	div.container
+		h1 Login
+
+		form(method='POST' action='/login').col.s12
+			div.input-field.col.s6
+				label(for="character") Username
+				input(name="username" type="text").tk-serenity
+			div.input-field.col.s6
+				label(for="server") Password
+				input(name="password" type="password").tk-serenity
+			button(type="submit" name="action").btn.waves-effect.waves-light.right Login
+				i.material-icons.right send
