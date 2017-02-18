@@ -15,6 +15,7 @@ var app = express();
 // Set 'Pug' as the view libary
 app.set('view engine', 'pug');
 // Set public folder for static files
+app.use(express.static(path.join(__dirname, 'client')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
