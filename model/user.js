@@ -1,11 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
-var jwt = require('jwt-simple');
-var JwtStrategy = require('passport-jwt').Strategy;
 var config = require('../model/config.json');
-
-mongoose.connect('mongodb://localhost/guildjs');
 
 var userSchema = new Schema({
 	userid: {

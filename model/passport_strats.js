@@ -1,20 +1,18 @@
 var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth2').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var user = require('../model/user');
 var config = require('../model/config.json');
-
+var bodyParser = require( 'body-parser' );
+var cookieParser = require( 'cookie-parser' );
+var session = require( 'express-session' );
+var RedisStore = require( 'connect-redis' )( session );
 passport.serializeUser(function(user, done) {
-	console.log("serializeUser");
-        done(null, user.id);
-    });
+  done(null, user);
+});
 
-    // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-		console.log("deserializeUser");
-        user.findById(id, function(err, user) {
-            done(err, user);
-        });
-    });
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 /*
 
 //module.exports = function(passport) {
@@ -37,13 +35,20 @@ passport.serializeUser(function(user, done) {
 */
 
 console.log("gId:"+config.googleId+", gS:"+config.googleSecret);
-passport.use(new GoogleStrategy({
-	clientID: config.googleId,
-	clientSecret: config.googleId,
-	callbackURL: "http://localhost:3000/auth/google/callback",
-	passReqToCallback   : true
+passport.use('google', new GoogleStrategy({
+	clientID: "299629131412-oq11vrptfus3uedo92ql4s3bucjh43aj.apps.googleusercontent.com",
+	clientSecret: "WZiyd4B4SgCVoNPn570ixH1A",
+	callbackURL: "http://localhost:3000/auth/google/callback"
 },
 function(accessToken, refreshToken, profile, done) {
 
 	console.log("Victory");
+	process.nextTick(function () {
+
+      // To keep the example simple, the user's Google profile is returned to
+      // represent the logged-in user.  In a typical application, you would want
+      // to associate the Google account with a user record in your database,
+      // and return that user instead.
+      return done(null, profile);
+    });
 }));

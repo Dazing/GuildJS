@@ -31,10 +31,11 @@ router.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
 
-router.get('/auth/google/callback',
-  passport.authenticate('google',{token:"t",refreshToken:"rt",function(){
-	  console.log("derp");
-  }}));
+router.get( '/auth/google/callback',
+    	passport.authenticate( 'google', {
+    		successRedirect: '/',
+    		failureRedirect: '/login'
+}));
 
 router.post('/register', function(req, res, next) {
 	if (!req.body.username || !req.body.password) {
@@ -49,24 +50,8 @@ router.post('/register', function(req, res, next) {
 	}
 });
 
-router.get('/calendar', passport.authenticate('jwt', { session: false}), function(req, res) {
-  var token = getToken(req.headers);
-  if (token) {
-    var decoded = jwt.decode(token, config.secret);
-    user.findOne({
-      username: decoded.username
-    }, function(err, user) {
-        if (err) throw err;
-
-        if (!user) {
-          return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
-        } else {
-          res.json({success: true, msg: 'Welcome in the member area ' + user.username + '!'});
-        }
-    });
-  } else {
-    return res.status(403).send({success: false, msg: 'No token provided.'});
-  }
+router.get('/calendar', ensureAuthenticated, function(req, res) {
+	res.render('calendar');
 });
 
 
@@ -127,8 +112,9 @@ getToken = function (headers) {
 };
 
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
+	console.log("Running ensAuth, req.isAuth:"+req.isAuthenticated());
+	if (req.isAuthenticated()) { return next(); }
+	res.redirect('/login');
 }
 
 module.exports = router;
