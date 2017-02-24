@@ -27,15 +27,16 @@ router.get('/login', function(req, res, next) {
 	res.render('login');
 });
 
-router.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'],accessType: 'offline'  }));
 
 
 router.get( '/auth/google/callback',
-    	passport.authenticate( 'google', {
-    		successRedirect: '/',
-    		failureRedirect: '/login'
-}));
+	passport.authenticate( 'google',
+		{ failureRedirect: '/login' }),
+	function (req, res, next) {
+		console.log("req.user: "+JSON.stringify(req.user));
+		res.redirect('/');
+});
 
 router.post('/register', function(req, res, next) {
 	if (!req.body.username || !req.body.password) {
@@ -112,7 +113,7 @@ getToken = function (headers) {
 };
 
 function ensureAuthenticated(req, res, next) {
-	console.log("Running ensAuth, req.isAuth:"+req.isAuthenticated());
+	console.log("Running ensAuth, req.isAuth:"+req.isAuthenticated()+" , req.user:"+JSON.stringify(req.user));
 	if (req.isAuthenticated()) { return next(); }
 	res.redirect('/login');
 }

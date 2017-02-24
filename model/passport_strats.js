@@ -6,6 +6,7 @@ var bodyParser = require( 'body-parser' );
 var cookieParser = require( 'cookie-parser' );
 var session = require( 'express-session' );
 var RedisStore = require( 'connect-redis' )( session );
+
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -13,8 +14,36 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
-/*
 
+function minifyProfile (profile) {
+	var minProfile = {
+		"id": profile.id
+	}
+	return minProfile;
+}
+
+console.log("gId:"+config.googleId+", gS:"+config.googleSecret);
+passport.use('google', new GoogleStrategy({
+	clientID: "299629131412-oq11vrptfus3uedo92ql4s3bucjh43aj.apps.googleusercontent.com",
+	clientSecret: "WZiyd4B4SgCVoNPn570ixH1A",
+	callbackURL: "http://localhost:3000/auth/google/callback"
+},
+function(accessToken, refreshToken, params,profile, done) {
+
+	//console.log("Params Tokens: "+JSON.stringify(params));
+	process.nextTick(function () {
+
+		//user.schema.methods.findOrCreate(profile.id,refreshToken);
+
+		profile = minifyProfile(profile);
+    	return done(null, profile);
+    });
+}));
+
+
+
+/*
+	TODO REMOVE WHEN SATISFIED WITH GOOGLE OAUTH2
 //module.exports = function(passport) {
   var opts = {};
   opts.secretOrKey = config.secret;
@@ -33,22 +62,3 @@ passport.deserializeUser(function(obj, done) {
   }));
 //};
 */
-
-console.log("gId:"+config.googleId+", gS:"+config.googleSecret);
-passport.use('google', new GoogleStrategy({
-	clientID: "299629131412-oq11vrptfus3uedo92ql4s3bucjh43aj.apps.googleusercontent.com",
-	clientSecret: "WZiyd4B4SgCVoNPn570ixH1A",
-	callbackURL: "http://localhost:3000/auth/google/callback"
-},
-function(accessToken, refreshToken, profile, done) {
-
-	console.log("Victory");
-	process.nextTick(function () {
-
-      // To keep the example simple, the user's Google profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the Google account with a user record in your database,
-      // and return that user instead.
-      return done(null, profile);
-    });
-}));

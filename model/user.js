@@ -5,7 +5,7 @@ var config = require('../model/config.json');
 
 var userSchema = new Schema({
 	userid: {
-		type: Schema.Types.ObjectId,
+		type: Schema.Types.Number,
 		required: true,
 		unique: true
 	},
@@ -121,6 +121,17 @@ userSchema.methods.userExists = function(username, callback) {
 	});
 	return res;
 };
+
+userSchema.methods.findOrCreate = function (userid, refreshToken) {
+	user.findAndModify({
+		query: { userid: "some potentially existing id" },
+		update: {
+			$setOnInsert: { foo: "bar" }
+		},
+		new: true,   // return new doc if one is upserted
+		upsert: true // insert the document if it does not exist
+	})
+}
 
 userSchema.methods.insertUser = function(username, password) {
 	var userExists = user.schema.methods.userExists(username);
