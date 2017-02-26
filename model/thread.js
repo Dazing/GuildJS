@@ -38,6 +38,26 @@ threadSchema.methods.findById = function(id, callback) {
 	});
 };
 
+threadSchema.methods.addComment = function(id, comment, callback) {
+
+	if(comment){
+		thread.findOne({'threadid': id}, function(err, thread){
+			thread.comments.push(comment);
+			thread.save(function(err, savedThread){
+						if (err) {
+							console.log(err);
+						}
+						else {
+							console.log(savedThread);
+						}
+			});
+			callback(err,thread);		
+		});
+	}else{
+		callback('Error: Empty comment');
+	}
+};
+
 threadSchema.methods.insertTestData = function() {
 	var i = 0;
 

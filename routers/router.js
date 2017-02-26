@@ -109,6 +109,21 @@ router.get('/forum/thread/:id', function(req, res){
  		
  		
  });
+router.post('/forum/thread/:id', function(req, res){
+	var comment = req.body.comment;
+	var id = req.params.id;
+	console.log("id = :   " + id);
+ 	thread.schema.methods.addComment(id, comment,  function(err, thread){		
+ 		if (err) {		
+ 			console.log(err);		
+			res.redirect('/forum/thread/'+ id);	
+ 		}		
+ 		else {		
+			res.redirect('/forum/thread/'+ id);	
+ 		}		
+ 	});	
+ 		
+ });
 
 router.get('/testdata', function(req, res){
 	// user.schema.methods.insertTestData();
