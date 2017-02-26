@@ -9,8 +9,6 @@ block content
 		ul
 			each section in sections
 				li
-					//- h5 #{section.name}
 					a(href="/forum/section/"+section.sectionid)=section.name
-					//- a(href=domain+"/forum/section/"+section.id+"post/"+section.lastPost.id)=section.lastPost.headline
 					
 block footer

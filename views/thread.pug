@@ -8,5 +8,14 @@ block content
 		ul
 			each comment in thread.comments
 				p #{comment}
+
+		form(method='POST' action='/forum/thread/' +thread.threadid).col.s12
+			div.input-field.col.s6
+				label(for="comment") New comment
+				textarea(name="comment" rows="5" ).tk-serenity.materialize-textarea
+
+
+			button(type="submit" name="action").btn.waves-effect.waves-light.left Submit
+				i.material-icons.left send
 					
 block footer

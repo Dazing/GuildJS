@@ -77,17 +77,53 @@ router.get('/forum', function(req, res){
 });
 
 router.get('/forum/section/:id', function(req, res){
-	thread.schema.methods.findBySectionId(req.params.id, function(err, threads){
+	forum.schema.methods.findById(req.params.id, function(err, section){
 		if (err) {
 			console.log(err);
 		}
 		else {
-			console.log("finding threads for section: " + req.params.id);
-			console.log(threads);
-			res.render('thread', {threads: threads});
+			var sectionName = section.name;
+			thread.schema.methods.findBySectionId(req.params.id, function(err, threads){
+
+				if (err) {
+					console.log(err);
+				}
+				else {
+					res.render('section', {sectionName: sectionName, threads: threads});
+				}
+			});
 		}
 	});
 });
+
+router.get('/forum/thread/:id', function(req, res){		
+ 		
+ 	thread.schema.methods.findById(req.params.id, function(err, thread){		
+ 		if (err) {		
+ 			console.log(err);		
+ 		}		
+ 		else {		
+ 			res.render('thread', {thread: thread});		
+ 		}		
+ 	});		
+ 		
+ 		
+ });
+router.post('/forum/thread/:id', function(req, res){
+	var comment = req.body.comment;
+	var id = req.params.id;
+	console.log("id = :   " + id);
+ 	thread.schema.methods.addComment(id, comment,  function(err, thread){		
+ 		if (err) {		
+ 			console.log(err);		
+			res.redirect('/forum/thread/'+ id);	
+ 		}		
+ 		else {		
+			res.redirect('/forum/thread/'+ id);	
+ 		}		
+ 	});	
+ 		
+ });
 
 router.get('/testdata', function(req, res){
 	// user.schema.methods.insertTestData();
