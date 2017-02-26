@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt');
+//var bcrypt = require('bcrypt');
 var config = require('../model/config.json');
 
 var userSchema = new Schema({
@@ -25,7 +25,7 @@ var userSchema = new Schema({
 },{strict:true});
 
 
-userSchema.pre('save', function (next) {
+/*userSchema.pre('save', function (next) {
     var user = this;
     if (this.isModified('password') || this.isNew) {
         bcrypt.genSalt(8, function (err, salt) {
@@ -43,11 +43,11 @@ userSchema.pre('save', function (next) {
     } else {
         return next();
     }
-});
+});*/
 
 var user = mongoose.model('user', userSchema);
 
-userSchema.methods.comparePassword = function (passArg, passStored, cb) {
+/*userSchema.methods.comparePassword = function (passArg, passStored, cb) {
 console.log("CP - Pass_input: "+passStored);
     bcrypt.compare(passArg, passStored, function (err, isMatch) {
 		console.log("CP - Pass_input: "+passArg);
@@ -56,7 +56,7 @@ console.log("CP - Pass_input: "+passStored);
         }
         cb(null, isMatch);
     });
-};
+};*/
 
 userSchema.methods.userLogin = function(username, password){
 	return new Promise(function(resolve, reject) {
