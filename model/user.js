@@ -9,18 +9,15 @@ var userSchema = new Schema({
 		required: true,
 		unique: true
 	},
+	refreshToken: {
+		type: String,
+	},
     name: {
 		type: String,
-		required: true,
 	},
     username: {
 		type: String,
-		required: true,
 		unique: true
-	},
-	password: {
-		type: String,
-		required: true
 	}
 },{strict:true});
 
@@ -123,13 +120,15 @@ userSchema.methods.userExists = function(username, callback) {
 };
 
 userSchema.methods.findOrCreate = function (userid, refreshToken) {
-	user.findAndModify({
-		query: { userid: "some potentially existing id" },
-		update: {
-			$setOnInsert: { foo: "bar" }
+	console.log("Find or create, uid:"+userid+", rToken: "+refreshToken);
+	user.update(
+		{ userid: userid },
+		{
+			$setOnInsert: { userid: userid, refreshToken: refreshToken  }
 		},
-		new: true,   // return new doc if one is upserted
-		upsert: true // insert the document if it does not exist
+		{ upsert: true }
+	, function(err, result){
+		console.log(result);
 	})
 }
 
