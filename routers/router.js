@@ -64,6 +64,59 @@ router.post('/apply', function(req, res){
 	res.send('POST from apply recived');
 });
 
+router.get('/profile', function(req, res){
+	console.log(JSON.stringify(req.user));
+	user.schema.methods.findById(req.user.id, function(err, user){
+
+		if (err) {
+			res.render('')
+		}
+
+		var tmpUser = {main:{}};
+
+		console.log("User (profile mongo): "+JSON.stringify(user));
+
+		if (user.id) { tmpUser.id = user.userid };
+		if (user.username) { tmpUser.username = user.username };
+		if (user.usertype) { tmpUser.usertype = user.usertype };
+		if (user.main.name) { tmpUser.main.name = user.main.name };
+		if (user.main.server) { tmpUser.main.server = user.main.server };
+		if (user.username) { tmpUser.username = user.username };
+
+
+		console.log("TMPUser (profile mongo): "+JSON.stringify(tmpUser));
+		res.render('profile', {user: tmpUser});
+	});
+});
+
+router.post('/profile', function(req, res){
+	var tmpUser = {main:{}};
+
+	tmpUser.id = req.user.id;
+	if (req.body.username) { tmpUser.username = req.body.username };
+	if (req.body.usertype) { tmpUser.usertype = req.body.usertype };
+	if (req.body.name) { tmpUser.main.name = req.body.name };
+	if (req.body.server) { tmpUser.main.server = req.body.server };
+	if (req.body.username) { tmpUser.username = req.body.username };
+
+	user.schema.methods.updateUser(tmpUser, function(err, user){
+		if (err) {
+
+		}
+		
+		if (tmpUser.username) 	{ req.user.username 	= tmpUser.username };
+		if (tmpUser.usertype) 	{ req.user.usertype 	= tmpUser.usertype };
+		if (tmpUser.name) 		{ req.user.main.name 	= tmpUser.name };
+		if (tmpUser.server)		{ req.user.main.server 	= tmpUser.server };
+		if (tmpUser.username) 	{ req.user.username 	= tmpUser.username };
+
+		console.log("Req.user : "+JSON.stringify(req.user));
+
+		res.redirect('profile');
+	})
+});
+
+
 router.get('/forum', function(req, res){
 	forum.find(function(err, sections){
 		if (err) {
@@ -150,7 +203,13 @@ getToken = function (headers) {
 
 function ensureAuthenticated(req, res, next) {
 	console.log("Running ensAuth, req.isAuth:"+req.isAuthenticated()+" , req.user:"+JSON.stringify(req.user));
-	if (req.isAuthenticated()) { return next(); }
+	if (req.isAuthenticated()) {
+		if (!req.user.username) {
+			res.redirect('profile');
+		}
+		return next();
+	}
+
 	res.redirect('/login');
 }
 

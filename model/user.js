@@ -9,16 +9,18 @@ var userSchema = new Schema({
 		required: true,
 		unique: true
 	},
-	refreshToken: {
+	usertype: {
 		type: String,
 	},
-    name: {
-		type: String,
-	},
-    username: {
+	username: {
 		type: String,
 		unique: true
+	},
+    main: {
+		name: {type: String},
+		server: {type: String}
 	}
+
 },{strict:true});
 
 
@@ -55,6 +57,45 @@ console.log("CP - Pass_input: "+passStored);
     });
 };*/
 
+userSchema.methods.findById = function(id, callback) {
+	user.findOne({'userid': id}, function(err, user){
+		callback(err,user);
+	});
+};
+
+userSchema.methods.findOrCreate = function (userid, refreshToken) {
+	user.update(
+		{ userid: userid },
+		{
+			$setOnInsert: { userid: userid, refreshToken: refreshToken  }
+		},
+		{ upsert: true }
+	, function(err, result){
+		console.log(result);
+	})
+}
+
+userSchema.methods.updateUser = function (inputUser, callback) {
+	console.log("inputUser: "+JSON.stringify(inputUser));
+	user.update(
+		{ userid: inputUser.id },
+		{
+			$set: {usertype: inputUser.usertype, username: inputUser.username, main: {server: inputUser.main.server, name: inputUser.main.name }  }
+		},
+		{}
+		, function (err, result) {
+			callback(err, result);
+		}
+	)
+}
+
+
+/* ############################### */
+/* TODO LEGACY or DEVELOPMENT CODE */
+/* ############################### */
+
+
+
 userSchema.methods.userLogin = function(username, password){
 	return new Promise(function(resolve, reject) {
 		user.findOne({
@@ -84,11 +125,7 @@ userSchema.methods.userLogin = function(username, password){
 	});
 };
 
-userSchema.methods.findById = function(id, callback) {
-	user.findOne({'userid': id}, function(err, user){
-		callback(err,user);
-	});
-};
+
 
 userSchema.methods.findByUsername = function(username, callback) {
 	console.log("Findbyusername");
@@ -119,18 +156,7 @@ userSchema.methods.userExists = function(username, callback) {
 	return res;
 };
 
-userSchema.methods.findOrCreate = function (userid, refreshToken) {
-	console.log("Find or create, uid:"+userid+", rToken: "+refreshToken);
-	user.update(
-		{ userid: userid },
-		{
-			$setOnInsert: { userid: userid, refreshToken: refreshToken  }
-		},
-		{ upsert: true }
-	, function(err, result){
-		console.log(result);
-	})
-}
+
 
 userSchema.methods.insertUser = function(username, password) {
 	var userExists = user.schema.methods.userExists(username);
