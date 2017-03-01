@@ -18,10 +18,10 @@ var threadSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	comments: {
-		type: [String],
-		required: true
-	}
+	comments: [{ 
+			posted: {type: Date},
+         	text: {type: String},
+        }]
 });
 
 var thread = mongoose.model('thread', threadSchema);
@@ -42,7 +42,7 @@ threadSchema.methods.addComment = function(id, comment, callback) {
 
 	if(comment){
 		thread.findOne({'threadid': id}, function(err, thread){
-			thread.comments.push(comment);
+			thread.comments.push({posted: new Date, text: comment});
 			thread.save(function(err, savedThread){
 						if (err) {
 							console.log(err);
@@ -75,7 +75,7 @@ threadSchema.methods.insertTestData = function() {
 				newThread.threadid = mongoose.Types.ObjectId();
 				newThread.sectionid = section.sectionid;
 				newThread.name = "thread" + i;
-				newThread.comments = ["first comment", "second comment", "third comment!"];
+				newThread.comments = {posted: new Date, text: "first comment"};
 
 
 				newThread.save(function(err, savedThread){

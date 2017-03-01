@@ -8,7 +8,7 @@ block content
 
 		ul
 			each section in sections
-				li
-					a(href="/forum/section/"+section.sectionid)=section.name
+				div.collection.thread
+					a(href="/forum/section/"+section.sectionid).collection-item=section.name
 					
 block footer

@@ -7,7 +7,8 @@ block content
 		h1 #{thread.name}
 		ul
 			each comment in thread.comments
-				p #{comment}
+				p.commentDate #{comment.posted} 
+				p #{comment.text}
 
 		form(method='POST' action='/forum/thread/' +thread.threadid).col.s12
 			div.input-field.col.s6

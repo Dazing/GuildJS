@@ -8,7 +8,7 @@ block content
 
 		ul
 			each thread in threads
-				li
-					a(href="/forum/thread/"+thread.threadid)=thread.name
+				div.collection.thread
+					a(href="/forum/thread/"+thread.threadid).collection-item=thread.name
 					
 block footer
