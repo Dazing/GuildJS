@@ -162,11 +162,11 @@ router.get('/forum/thread/:id', function(req, res){
 
 
  });
-router.post('/forum/thread/:id', function(req, res){
+router.post('/forum/thread/:id', ensureAuthenticated, function(req, res){
 	var comment = req.body.comment;
 	var id = req.params.id;
 	console.log("id = :   " + id);
- 	thread.schema.methods.addComment(id, comment,  function(err, thread){
+ 	thread.schema.methods.addComment(id, comment, req.user, function(err, thread){
  		if (err) {
  			console.log(err);
 			res.redirect('/forum/thread/'+ id);

@@ -1,7 +1,8 @@
-@import url("nav_style.css");
-@import url("footer_style.css");
-@import url("index_style.css");
-
+@import url("http://localhost:3000/css/nav_style.css");
+/*
+@import url("http://localhost:3000/css/footer_style.css");
+@import url("http://localhost:3000/css/index_style.css");
+*/
 /* ---- General Style Rules ---- */
 * {
 	margin: 0;
