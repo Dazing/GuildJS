@@ -1,0 +1,29 @@
+extends master.pug
+
+
+block content
+
+	div.mainWrapper.container.white-text
+		h1 Profile view for userid: #{user.id}
+
+		form(method='POST' action='/profile').col.s12
+			div.row
+				h6  Main Character
+				div.input-field.col.s6
+					label(for="name") Character
+					input(name="name" value=(user.main.name) type="text").tk-serenity
+				div.input-field.col.s6
+					label(for="server") Server Name
+					input(name="server" value=(user.main.server) type="text").tk-serenity.autocomplete
+			div.row
+				h6  Account
+				div.input-field.col.s6
+					label(for="username") Username
+					input(name="username" value=(user.username) type="text").tk-serenity
+				div.input-field.col.s6
+					label(for="usertype") User Permission
+					input(name="usertype" value=(user.usertype) type="text").tk-serenity
+
+
+			button(type="submit" name="action").btn.waves-effect.waves-light.right Submit
+				i.material-icons.right send
