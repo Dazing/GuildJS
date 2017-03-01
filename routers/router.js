@@ -178,8 +178,7 @@ router.post('/forum/thread/:id', ensureAuthenticated, function(req, res){
  		if (err) {
  			console.log(err);
 			res.redirect('/forum/thread/'+ id);
- 		}
- 		else {
+ 		}else {
 			res.redirect('/forum/thread/'+ id);
  		}
  	});
@@ -215,10 +214,13 @@ function ensureAuthenticated(req, res, next) {
 		if (!req.user.username) {
 			res.redirect('profile');
 		}
-		return next();
+		else {
+			return next();
+		}
 	}
-
-	res.redirect('/login');
+	else {
+		res.redirect('/login');
+	}
 }
 
 module.exports = router;
