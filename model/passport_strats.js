@@ -30,10 +30,10 @@ passport.use('google', new GoogleStrategy({
 },
 function(accessToken, refreshToken, params,profile, done) {
 
-	//console.log("Params Tokens: "+JSON.stringify(params));
+	console.log("Params Tokens: "+JSON.stringify(params));
 	process.nextTick(function () {
 
-		//user.schema.methods.findOrCreate(profile.id,refreshToken);
+		user.schema.methods.findOrCreate(profile.id,refreshToken);
 
 		profile = minifyProfile(profile);
     	return done(null, profile);

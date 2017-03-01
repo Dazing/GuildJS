@@ -27,7 +27,7 @@ router.get('/login', function(req, res, next) {
 	res.render('login');
 });
 
-router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'],accessType: 'offline'  }));
+router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], accessType: 'offline' }));
 
 
 router.get( '/auth/google/callback',
@@ -96,33 +96,33 @@ router.get('/forum/section/:id', function(req, res){
 	});
 });
 
-router.get('/forum/thread/:id', function(req, res){		
- 		
- 	thread.schema.methods.findById(req.params.id, function(err, thread){		
- 		if (err) {		
- 			console.log(err);		
- 		}		
- 		else {		
- 			res.render('thread', {thread: thread});		
- 		}		
- 	});		
- 		
- 		
+router.get('/forum/thread/:id', function(req, res){
+
+ 	thread.schema.methods.findById(req.params.id, function(err, thread){
+ 		if (err) {
+ 			console.log(err);
+ 		}
+ 		else {
+ 			res.render('thread', {thread: thread});
+ 		}
+ 	});
+
+
  });
 router.post('/forum/thread/:id', function(req, res){
 	var comment = req.body.comment;
 	var id = req.params.id;
 	console.log("id = :   " + id);
- 	thread.schema.methods.addComment(id, comment,  function(err, thread){		
- 		if (err) {		
- 			console.log(err);		
-			res.redirect('/forum/thread/'+ id);	
- 		}		
- 		else {		
-			res.redirect('/forum/thread/'+ id);	
- 		}		
- 	});	
- 		
+ 	thread.schema.methods.addComment(id, comment,  function(err, thread){
+ 		if (err) {
+ 			console.log(err);
+			res.redirect('/forum/thread/'+ id);
+ 		}
+ 		else {
+			res.redirect('/forum/thread/'+ id);
+ 		}
+ 	});
+
  });
 
 router.get('/testdata', function(req, res){
