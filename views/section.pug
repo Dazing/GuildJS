@@ -4,11 +4,23 @@ extends master.pug
 block content
 
 	div.mainWrapper.container
-		h1 Threads in #{sectionName}
+		h1 Threads in #{section.name}
 
-		ul
-			each thread in threads
-				div.collection.thread
-					a(href="/forum/thread/"+thread.threadid).collection-item=thread.name
+		each thread in threads
+			div.collection.thread
+				a(href="/forum/thread/"+thread.threadid).collection-item=thread.name
+
+		form(method='POST' action='/forum/section/' +section.sectionid).col.s12
+			div.input-field.col.s6
+				label(for="threadname") Thread name
+				textarea(name="threadname" rows="5" ).tk-serenity.materialize-textarea
+			div.input-field.col.s6
+				label(for="comment") Initial comment
+				textarea(name="comment" rows="5" ).tk-serenity.materialize-textarea
+
+
+			button(type="submit" name="action").btn.waves-effect.waves-light.left Submit
+				i.material-icons.left send
+
 					
 block footer

@@ -71,6 +71,33 @@ threadSchema.methods.addComment = function(id, comment, user, callback) {
 	}
 };
 
+threadSchema.methods.addThread = function(sectionid, name, comment, user) {
+
+	var newThread = new thread();
+
+	newThread.threadid = mongoose.Types.ObjectId();
+	newThread.sectionid = sectionid;
+	newThread.name = name;
+	//TODO Do not create dummy date once we have real data, just reject
+	if(!user || !user.username){
+		var username = "John Doe";
+		var userid = 123;
+	}else{
+		var username = user.username;
+		var username = user.userid;
+	}
+	newThread.comments = {posted: new Date, text: comment, author: {userid: userid, name: username}};
+	newThread.save(function(err, savedThread){
+		if (err) {
+			console.log(err);
+		}
+		else {
+			console.log(savedThread);
+		}
+	});
+
+};
+
 threadSchema.methods.insertTestData = function() {
 	var i = 0;
 
@@ -79,8 +106,6 @@ threadSchema.methods.insertTestData = function() {
 			console.log(err);
 		}
 		else {
-			console.log("SEEEECTION!!!! ------------------" + section.sectionid);
-
 
 			while (i < 3) {
 				var newThread = new thread();
@@ -94,8 +119,6 @@ threadSchema.methods.insertTestData = function() {
 						console.log(err);
 					}
 					else {
-						console.log('userid -------------------------- ' + foundUser.userid)
-						console.log('username -------------------------- ' + foundUser.username)
 						newThread.comments = {posted: new Date, text: "first comment", author: {userid: foundUser.userid, name: foundUser.username}};
 						newThread.save(function(err, savedThread){
 							if (err) {

@@ -82,18 +82,26 @@ router.get('/forum/section/:id', function(req, res){
 			console.log(err);
 		}
 		else {
-			var sectionName = section.name;
+			var section = section;
 			thread.schema.methods.findBySectionId(req.params.id, function(err, threads){
 
 				if (err) {
 					console.log(err);
 				}
 				else {
-					res.render('section', {sectionName: sectionName, threads: threads});
+					res.render('section', {section: section, threads: threads});
 				}
 			});
 		}
 	});
+});
+
+router.post('/forum/section/:id', function(req, res){
+	thread.schema.methods.addThread(req.params.id, req.body.threadname, req.body.comment, req.user )
+	res.redirect('/forum/section/'+ req.params.id);
+
+
+
 });
 
 router.get('/forum/thread/:id', function(req, res){
