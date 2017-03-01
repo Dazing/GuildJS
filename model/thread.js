@@ -1,4 +1,5 @@
 var forum = require('./forum.js');
+var user = require('./user.js');
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
@@ -21,6 +22,10 @@ var threadSchema = new Schema({
 	comments: [{ 
 			posted: {type: Date},
          	text: {type: String},
+         	author: {
+         		userid: Schema.Types.Number,
+         		name: String
+         	}
         }]
 });
 
@@ -38,11 +43,19 @@ threadSchema.methods.findById = function(id, callback) {
 	});
 };
 
-threadSchema.methods.addComment = function(id, comment, callback) {
+threadSchema.methods.addComment = function(id, comment, user, callback) {
 
 	if(comment){
 		thread.findOne({'threadid': id}, function(err, thread){
-			thread.comments.push({posted: new Date, text: comment});
+			//TODO Do not create dummy date once we have real data, just reject
+			if(!user || !user.username){
+				var username = "John Doe";
+				var userid = 123;
+			}else{
+				var username = user.username;
+				var username = user.userid;
+			}
+			thread.comments.push({posted: new Date, text: comment, author:{name:username, userid: userid}});
 			thread.save(function(err, savedThread){
 						if (err) {
 							console.log(err);
@@ -75,17 +88,26 @@ threadSchema.methods.insertTestData = function() {
 				newThread.threadid = mongoose.Types.ObjectId();
 				newThread.sectionid = section.sectionid;
 				newThread.name = "thread" + i;
-				newThread.comments = {posted: new Date, text: "first comment"};
-
-
-				newThread.save(function(err, savedThread){
+				var tmpUser;
+				user.schema.methods.findByUsername('test', function(err, foundUser){
 					if (err) {
 						console.log(err);
 					}
 					else {
-						console.log(savedThread);
+						console.log('userid -------------------------- ' + foundUser.userid)
+						console.log('username -------------------------- ' + foundUser.username)
+						newThread.comments = {posted: new Date, text: "first comment", author: {userid: foundUser.userid, name: foundUser.username}};
+						newThread.save(function(err, savedThread){
+							if (err) {
+								console.log(err);
+							}
+							else {
+								console.log(savedThread);
+							}
+						});
 					}
-				});
+				});	
+
 				i++;
 			}
 		}

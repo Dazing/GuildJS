@@ -92,7 +92,7 @@ userSchema.methods.findById = function(id, callback) {
 
 userSchema.methods.findByUsername = function(username, callback) {
 	console.log("Findbyusername");
-	user.findOne({'username': id}, function(err, user){
+	user.findOne({'username': username}, function(err, user){
 		callback(err,user);
 		if (err) {
 			return false;
