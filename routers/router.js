@@ -17,14 +17,8 @@ var events = require('../model/events.js');
 
 
 // define the home page route
-router.get('/', ensureAuthenticated, function(req, res, next) {
-	console.log("get /");
+router.get('/', function(req, res, next) {
 	res.render('index');
-});
-
-// define the home page route
-router.get('/login', function(req, res, next) {
-	res.render('login');
 });
 
 router.get('/logout', function(req, res, next) {
@@ -33,7 +27,6 @@ router.get('/logout', function(req, res, next) {
 });
 
 router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], accessType: 'offline' }));
-
 
 router.get( '/auth/google/callback',
 	passport.authenticate( 'google',
@@ -59,7 +52,6 @@ router.post('/register', function(req, res, next) {
 router.get('/calendar', ensureAuthenticated, function(req, res) {
 	res.render('calendar');
 });
-
 
 router.get('/apply', function(req, res){
 	res.render('apply');
