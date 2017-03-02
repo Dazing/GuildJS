@@ -137,8 +137,13 @@ router.get('/forum/section/:id', function(req, res){
 });
 
 router.post('/forum/section/:id', ensureAuthenticated, function(req, res){
-	thread.schema.methods.addThread(req.params.id, req.body.threadname, req.body.comment, req.user )
-	res.redirect('/forum/section/'+ req.params.id);
+	thread.schema.methods.addThread(req.params.id, req.body.threadname, req.body.comment, req.user, function(err, thread){
+ 		if (err) {
+ 			console.log(err);
+ 		}else {
+			res.redirect('/forum/thread/'+ thread.threadid);
+ 		}
+ 	});
 
 
 

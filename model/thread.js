@@ -53,9 +53,9 @@ threadSchema.methods.addComment = function(id, comment, user, callback) {
 				var userid = 123;
 			}else{
 				var username = user.username;
-				var userid = user.userid;
+				var userid = user.id;
 			}
-			thread.comments.push({posted: new Date, text: comment, author:{name:username, userid: userid}});
+			thread.comments.push({posted: new Date, text: comment, author:{name: username, userid: userid}});
 			thread.save(function(err, savedThread){
 						if (err) {
 							console.log(err);
@@ -68,7 +68,7 @@ threadSchema.methods.addComment = function(id, comment, user, callback) {
 	}
 };
 
-threadSchema.methods.addThread = function(sectionid, name, comment, user) {
+threadSchema.methods.addThread = function(sectionid, name, comment, user, callback) {
 
 	var newThread = new thread();
 
@@ -79,13 +79,16 @@ threadSchema.methods.addThread = function(sectionid, name, comment, user) {
 	if(!user || !user.username){
 		var username = "John Doe";
 		var userid = 123;
-	}else{		var username = user.username;
-		var username = user.userid;
+	}else{		
+		var username = user.username;
+		var userid = user.id;
 	}
-	newThread.comments = {posted: new Date, text: comment, author: {userid: userid, name: username}};
+	newThread.comments = {posted: new Date, text: comment, author: {name: username, userid: userid}};
 	newThread.save(function(err, savedThread){
 		if (err) {
-			console.log(err);
+			callback(err);
+		}else{
+			callback(null,savedThread)
 		}
 	});
 
