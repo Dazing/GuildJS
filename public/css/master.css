@@ -32,3 +32,7 @@ footer {
 	text-transform: uppercase;
 	font-weight: 600;
 }
+.commentInfo{
+	color: gray;
+	font-size: 12px;
+}

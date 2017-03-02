@@ -4,11 +4,15 @@ extends master.pug
 block content
 
 	div.mainWrapper.container
-		h1 #{thread.name}
-		ul
+
+		ul.collection.with-header
+
+			li.collection-header 
+				h4 #{thread.name}
 			each comment in thread.comments
-				p created by #{comment.author.name}, #{comment.posted}  
-				p #{comment.text}
+				li.collection-item 
+					p.commentInfo posted by #{comment.author.name}, #{comment.posted} 
+					p #{comment.text}
 
 		form(method='POST' action='/forum/thread/' +thread.threadid).col.s12
 			div.input-field.col.s6
@@ -18,5 +22,5 @@ block content
 
 			button(type="submit" name="action").btn.waves-effect.waves-light.left Submit
 				i.material-icons.left send
-					
+				
 block footer
