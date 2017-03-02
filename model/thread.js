@@ -19,7 +19,7 @@ var threadSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	comments: [{ 
+	comments: [{
 			posted: {type: Date},
          	text: {type: String},
          	author: {
@@ -66,7 +66,7 @@ threadSchema.methods.addComment = function(id, comment, user, callback) {
 							console.log(savedThread);
 						}
 			});
-			callback(err,thread);		
+			callback(err,thread);
 		});
 	}else{
 		callback('Error: Empty comment');
@@ -115,7 +115,7 @@ threadSchema.methods.insertTestData = function() {
 				newThread.sectionid = section.sectionid;
 				newThread.name = "thread" + i;
 				var tmpUser;
-				user.schema.methods.findByUsername('test', function(err, foundUser){
+				user.schema.methods.findByUsername('Dazing', function(err, foundUser){
 					if (err) {
 						console.log(err);
 					}
@@ -130,7 +130,7 @@ threadSchema.methods.insertTestData = function() {
 							}
 						});
 					}
-				});	
+				});
 
 				i++;
 			}
