@@ -28,15 +28,29 @@ passport.use('google', new GoogleStrategy({
 	clientSecret: "WZiyd4B4SgCVoNPn570ixH1A",
 	callbackURL: "http://localhost:3000/auth/google/callback"
 },
-function(accessToken, refreshToken, params,profile, done) {
+function(accessToken, refreshToken, params, profile, done) {
 
 	console.log("Params Tokens: "+JSON.stringify(params));
 	process.nextTick(function () {
 
-		user.schema.methods.findOrCreate(profile.id,refreshToken);
-
 		profile = minifyProfile(profile);
-    	return done(null, profile);
+		user.schema.methods.findOrCreate(profile.id,refreshToken);
+		user.schema.methods.findById(profile.id, function(err, user){
+			if (err) {
+				return done(null, profile)
+			}
+
+			profile = minifyProfile(profile);
+
+			if (user.username) 	{ profile.username 		= user.username };
+			if (user.usertype) 	{ profile.usertype 		= user.usertype };
+			if (user.name) 		{ profile.main.name 	= user.name };
+			if (user.server)	{ profile.main.server	= user.server };
+			if (user.username) 	{ profile.username 		= user.username };
+
+	    	return done(null, profile);
+		});
+
     });
 }));
 

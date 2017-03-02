@@ -27,6 +27,11 @@ router.get('/login', function(req, res, next) {
 	res.render('login');
 });
 
+router.get('/logout', function(req, res, next) {
+	req.logout();
+	res.redirect('/');
+});
+
 router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], accessType: 'offline' }));
 
 
@@ -76,12 +81,12 @@ router.get('/profile', function(req, res){
 
 		console.log("User (profile mongo): "+JSON.stringify(user));
 
-		if (user.id) { tmpUser.id = user.userid };
-		if (user.username) { tmpUser.username = user.username };
-		if (user.usertype) { tmpUser.usertype = user.usertype };
-		if (user.main.name) { tmpUser.main.name = user.main.name };
-		if (user.main.server) { tmpUser.main.server = user.main.server };
-		if (user.username) { tmpUser.username = user.username };
+		if (user.id) 			{ tmpUser.id 			= user.userid };
+		if (user.username)		{ tmpUser.username 		= user.username };
+		if (user.usertype) 		{ tmpUser.usertype 		= user.usertype };
+		if (user.main.name) 	{ tmpUser.main.name 	= user.main.name };
+		if (user.main.server)	{ tmpUser.main.server 	= user.main.server };
+		if (user.username) 		{ tmpUser.username 		= user.username };
 
 
 		console.log("TMPUser (profile mongo): "+JSON.stringify(tmpUser));
@@ -93,17 +98,17 @@ router.post('/profile', function(req, res){
 	var tmpUser = {main:{}};
 
 	tmpUser.id = req.user.id;
-	if (req.body.username) { tmpUser.username = req.body.username };
-	if (req.body.usertype) { tmpUser.usertype = req.body.usertype };
-	if (req.body.name) { tmpUser.main.name = req.body.name };
-	if (req.body.server) { tmpUser.main.server = req.body.server };
-	if (req.body.username) { tmpUser.username = req.body.username };
+	if (req.body.username) 	{ tmpUser.username 		= req.body.username };
+	if (req.body.usertype) 	{ tmpUser.usertype 		= req.body.usertype };
+	if (req.body.name) 		{ tmpUser.main.name 	= req.body.name };
+	if (req.body.server) 	{ tmpUser.main.server 	= req.body.server };
+	if (req.body.username) 	{ tmpUser.username 		= req.body.username };
 
 	user.schema.methods.updateUser(tmpUser, function(err, user){
 		if (err) {
 
 		}
-		
+
 		if (tmpUser.username) 	{ req.user.username 	= tmpUser.username };
 		if (tmpUser.usertype) 	{ req.user.usertype 	= tmpUser.usertype };
 		if (tmpUser.name) 		{ req.user.main.name 	= tmpUser.name };
@@ -188,7 +193,7 @@ router.post('/forum/thread/:id', ensureAuthenticated, function(req, res){
 router.get('/testdata', function(req, res){
 	// user.schema.methods.insertTestData();
 	// events.schema.methods.insertTestData();
-	// forum.schema.methods.insertTestData();
+	//forum.schema.methods.insertTestData();
 	thread.schema.methods.insertTestData();
 
 	res.redirect('/');
