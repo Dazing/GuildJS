@@ -22,10 +22,12 @@ function minifyProfile (profile) {
 	return minProfile;
 }
 
-console.log("gId:"+config.googleId+", gS:"+config.googleSecret);
+var googleSecret = config.googleSecret;
+var googleId = config.googleId;
+
 passport.use('google', new GoogleStrategy({
-	clientID: "299629131412-oq11vrptfus3uedo92ql4s3bucjh43aj.apps.googleusercontent.com",
-	clientSecret: "WZiyd4B4SgCVoNPn570ixH1A",
+	clientID: googleId,
+	clientSecret: googleSecret,
 	callbackURL: "http://localhost:3000/auth/google/callback"
 },
 function(accessToken, refreshToken, params, profile, done) {
