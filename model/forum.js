@@ -35,9 +35,6 @@ forumSchema.methods.insertTestData = function() {
 			if (err) {
 				console.log(err);
 			}
-			else {
-				console.log(savedSection);
-			}
 		});
 		i++;
 	}
