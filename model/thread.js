@@ -53,7 +53,7 @@ threadSchema.methods.addComment = function(id, comment, user, callback) {
 				var userid = 123;
 			}else{
 				var username = user.username;
-				var userid = user.userid;
+				var userid = user.id;
 			}
 			thread.comments.push({posted: new Date, text: comment, author:{name: username, userid: userid}});
 			thread.save(function(err, savedThread){
@@ -81,7 +81,7 @@ threadSchema.methods.addThread = function(sectionid, name, comment, user, callba
 		var userid = 123;
 	}else{		
 		var username = user.username;
-		var userid = user.userid;
+		var userid = user.id;
 	}
 	newThread.comments = {posted: new Date, text: comment, author: {name: username, userid: userid}};
 	newThread.save(function(err, savedThread){
