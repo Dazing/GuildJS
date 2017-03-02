@@ -26,8 +26,10 @@ router.get('/logout', function(req, res, next) {
 	res.redirect('/');
 });
 
+// Make user allow our application to get profile information from google
 router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], accessType: 'offline' }));
 
+// Response url from google, run passport as middleware
 router.get( '/auth/google/callback',
 	passport.authenticate( 'google',
 		{ failureRedirect: '/login' }),
@@ -36,18 +38,6 @@ router.get( '/auth/google/callback',
 		res.redirect('/');
 });
 
-router.post('/register', function(req, res, next) {
-	if (!req.body.username || !req.body.password) {
-		res.json({success: false, msg: 'Please provide username and password.'});
-	} else {
-		try {
-			user.schema.methods.insertUser(req.body.username,req.body.password);
-			res.redirect('/');
-		} catch (e) {
-			res.json({error: e.message});
-		}
-	}
-});
 
 router.get('/calendar', ensureAuthenticated, function(req, res) {
 	res.render('calendar');
@@ -192,18 +182,6 @@ router.get('/testdata', function(req, res){
 
 });
 
-getToken = function (headers) {
-  if (headers && headers.authorization) {
-    var parted = headers.authorization.split(' ');
-    if (parted.length === 2) {
-      return parted[1];
-    } else {
-      return null;
-    }
-  } else {
-    return null;
-  }
-};
 
 function ensureAuthenticated(req, res, next) {
 	console.log("Running ensAuth, req.isAuth:"+req.isAuthenticated()+" , req.user:"+JSON.stringify(req.user));
