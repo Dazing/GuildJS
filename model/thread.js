@@ -52,8 +52,6 @@ threadSchema.methods.addComment = function(id, comment, user, callback) {
 				var username = "John Doe";
 				var userid = 123;
 			}else{
-				console.log('user.-----------------:' + user.username);
-
 				var username = user.username;
 				var userid = user.userid;
 			}
@@ -61,9 +59,6 @@ threadSchema.methods.addComment = function(id, comment, user, callback) {
 			thread.save(function(err, savedThread){
 						if (err) {
 							console.log(err);
-						}
-						else {
-							console.log(savedThread);
 						}
 			});
 			callback(err,thread);
@@ -91,9 +86,6 @@ threadSchema.methods.addThread = function(sectionid, name, comment, user) {
 	newThread.save(function(err, savedThread){
 		if (err) {
 			console.log(err);
-		}
-		else {
-			console.log(savedThread);
 		}
 	});
 
@@ -124,9 +116,6 @@ threadSchema.methods.insertTestData = function() {
 						newThread.save(function(err, savedThread){
 							if (err) {
 								console.log(err);
-							}
-							else {
-								console.log(savedThread);
 							}
 						});
 					}
