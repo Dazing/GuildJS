@@ -104,7 +104,15 @@ router.post('/profile', function(req, res){
 		res.redirect('profile');
 	})
 });
-
+router.get('/user/:id', function(req, res){
+	user.schema.methods.findById(req.params.id, function(err, user){
+		if (err) {
+			console.log(err);
+		}else {
+			res.render('user', {user: user});
+		}
+	});
+});
 
 router.get('/forum', function(req, res){
 	forum.find(function(err, sections){

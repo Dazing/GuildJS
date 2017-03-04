@@ -1,0 +1,21 @@
+extends master.pug
+
+
+block content
+
+	div.mainWrapper.container
+		h1 User #{user.username}
+
+		ul
+			div.collection
+				div.row
+					div.col.l3
+						h5 Main character
+						p #{user.main.name}
+					div.col.l3
+						h5 Realm
+						p #{user.main.server}
+					div.col.l3
+						h5 User level
+						p #{user.usertype}
+	block footer
