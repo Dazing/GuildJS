@@ -18,7 +18,6 @@ var applicationSchema = new Schema({
 		type: String,
 		required: true
 	},
-	name: 			{ type: String },
 	age: 			{ type: Schema.Types.Number },
 	mainspec: 		{ type: String, required: true },
 	offspec: 		{ type: String, required: true },

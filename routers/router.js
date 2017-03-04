@@ -83,7 +83,7 @@ router.post('/apply', ensureAuthenticated,function(req, res){
 router.get('/application/:id', ensureAuthenticated, function(req, res){
 	application.findOne({_id:req.params.id}, function(err,result){
 		if (err) {res.redirect('/404')}
-
+		console.log("APP: "+JSON.stringify(result));
 		res.render('application',{application:result});
 
 	})
