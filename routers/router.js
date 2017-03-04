@@ -13,10 +13,27 @@ var application = require('../model/application.js');
 
 
 
-router.use('*',function (req, res, next){
+// Make user allow our application to get profile information from google
+router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], accessType: 'offline' }));
+
+// Response url from google, run passport as middleware
+router.get( '/auth/google/callback',
+	passport.authenticate( 'google',
+		{ failureRedirect: '/' }),
+	function (req, res, next) {
+
+		var redirectPath = "/"+req.session.lastpage;
+		res.redirect(redirectPath);
+});
+
+// Set request wide variables and lastpage for login redirect
+router.use('/:path',function (req, res, next){
 	if(req.user){
 		res.locals.userlevel = req.user.usertype;
 		res.locals.userid = req.user.id;
+	}
+	else if (req.params.path != "auth/google/callback") {
+		req.session.lastpage = req.params.path;
 	}
 	next();
 });
@@ -32,17 +49,6 @@ router.get('/logout', function(req, res, next) {
 	res.redirect('/');
 });
 
-// Make user allow our application to get profile information from google
-router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'], accessType: 'offline' }));
-
-// Response url from google, run passport as middleware
-router.get( '/auth/google/callback',
-	passport.authenticate( 'google',
-		{ failureRedirect: '/login' }),
-	function (req, res, next) {
-		console.log("req.user: "+JSON.stringify(req.user));
-		res.redirect('/');
-});
 
 
 router.get('/apply', ensureAuthenticated, function(req, res){
@@ -57,6 +63,15 @@ router.post('/apply', ensureAuthenticated,function(req, res){
 		res.send('POST from apply recived');
 	});
 
+});
+
+router.get('/application/:id', ensureAuthenticated, function(req, res){
+	application.findOne({_id:req.params.id}, function(err,result){
+		if (err) {res.redirect('/404')}
+
+		res.render('application',{application:result});
+
+	})
 });
 
 router.get('/recruitment', ensureAuthenticated, function(req, res){
