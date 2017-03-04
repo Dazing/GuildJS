@@ -119,7 +119,15 @@ router.post('/profile', ensureAuthenticated, function(req, res){
 		res.redirect('profile');
 	})
 });
-
+router.get('/user/:id', function(req, res){
+	user.schema.methods.findById(req.params.id, function(err, user){
+		if (err) {
+			console.log(err);
+		}else {
+			res.render('user', {user: user});
+		}
+	});
+});
 
 router.get('/forum', function(req, res){
 	forum.find(function(err, sections){
@@ -158,6 +166,34 @@ router.get('/forum/section/:id', function(req, res){
 					res.render('section', {section: section, threads: threads});
 				}
 			});
+		}
+	});
+});
+router.get('/forum/section/edit/:id', function(req, res){
+	forum.schema.methods.findById(req.params.id, function(err, section){
+		if (err) {
+			console.log(err);
+		}
+		else{
+			res.render('edit_section', {section: section});
+		}
+	});
+});
+router.post('/forum/section/edit/:id', ensureAuthenticated, function(req, res){
+	forum.schema.methods.updateSection(req.params.id, req.body.name, req.body.description, function(err, section){
+		if (err) {
+			console.log(err);
+		}else{
+			res.redirect('/forum');
+		}
+	});
+});
+router.get('/forum/section/delete/:id', ensureAuthenticated, function(req, res){
+	forum.schema.methods.deleteSection(req.params.id, function(err, section){
+		if (err) {
+			console.log(err);
+		}else{
+			res.redirect('/forum');
 		}
 	});
 });

@@ -1,0 +1,18 @@
+extends master.pug
+
+
+block content
+	div.container
+		h4 Edit section #{section.name}
+		form(method='POST' action='/forum/section/edit/' + section.sectionid).col.s12
+			div.input-field.col.s6
+				label(for="name") Section name 
+				input(name="name" value=(section.name) type="text").tk-serenity
+
+			div.input-field.col.s6
+				label(for="description") Description 
+				input(name="description" value=(section.description) type="text").tk-serenity
+			button(type="submit" name="action").btn.waves-effect.waves-light.left Submit
+				i.material-icons.left send
+
+block footer
