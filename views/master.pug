@@ -45,14 +45,23 @@ html
 							ul.right.hide-on-med-and-down#nav-mobile.uppercase
 								li
 									a(href="/forum") Forum
-								li
-									a(href="/apply") Apply
+
+								if (((userlevel == 'member')||(userlevel == 'admin'))&&(userlevel))
+
+									li
+										a(href="/recruitment") Recruitment
+								else
+									li
+										a(href="/apply") Apply
 								li
 									a(href="/testdata") Insert Test Data
-								li
-									a(href="/auth/google") Login
-								li
-									a(href="/logout") Logout
+
+								if (!userlevel)
+									li
+										a(href="/auth/google") Login
+								else
+									li
+										a(href="/logout") Logout
 							ul#mobile-demo.side-nav
 
 								li

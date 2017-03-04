@@ -3,16 +3,16 @@ extends master.pug
 
 block content
 
-	div#mainWrapper
+	div.mainWrapper.container
 		h1 Recruitment View
 
 		ul.tk-serenity
 			each application in applications
-				li
-					h3
-						a(href="domain.com/recruitment/"+application.id)=application.name
-					p=application.role+' - '+application.spec
+				div.collection
+					a(href="/application/"+application._id).collection-item=application.character.name
 			else
 				li No applications found.
+
+
 
 block footer

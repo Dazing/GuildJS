@@ -11,9 +11,15 @@ var forum = require('../model/forum.js');
 var thread = require('../model/thread.js');
 var application = require('../model/application.js');
 
-//var users = require('../model/user.js');
 
 
+router.use('*',function (req, res, next){
+	if(req.user){
+		res.locals.userlevel = req.user.usertype;
+		res.locals.userid = req.user.id;
+	}
+	next();
+});
 
 
 // define the home page route
@@ -39,21 +45,30 @@ router.get( '/auth/google/callback',
 });
 
 
-router.get('/calendar', ensureAuthenticated, function(req, res) {
-	res.render('calendar');
-});
-
-router.get('/apply', function(req, res){
+router.get('/apply', ensureAuthenticated, function(req, res){
 	res.render('apply');
 });
 
-router.post('/apply', function(req, res){
+router.post('/apply', ensureAuthenticated,function(req, res){
 	console.log("POST Apply: "+JSON.stringify(req.body));
-	var application = req.body;
-	res.send('POST from apply recived');
+	var inputApplication = req.body;
+	application.schema.methods.insertApplication(req.user.id, inputApplication, function(err, savedApp){
+		if(err){ redirect('/404') }
+		res.send('POST from apply recived');
+	});
+
 });
 
-router.get('/profile', function(req, res){
+router.get('/recruitment', ensureAuthenticated, function(req, res){
+	application.find(function(err,result){
+		if (err) {res.redirect('/404')}
+		//res.send(result);
+		res.render('recruitment',{applications:result});
+
+	})
+});
+
+router.get('/profile', ensureAuthenticated, function(req, res){
 	console.log(JSON.stringify(req.user));
 	user.schema.methods.findById(req.user.id, function(err, user){
 
@@ -78,7 +93,7 @@ router.get('/profile', function(req, res){
 	});
 });
 
-router.post('/profile', function(req, res){
+router.post('/profile', ensureAuthenticated, function(req, res){
 	var tmpUser = {main:{}};
 
 	tmpUser.id = req.user.id;
@@ -199,7 +214,6 @@ router.get('/testdata', function(req, res){
 
 
 function ensureAuthenticated(req, res, next) {
-	console.log("Running ensAuth, req.isAuth:"+req.isAuthenticated()+" , req.user:"+JSON.stringify(req.user));
 	if (req.isAuthenticated()) {
 		if (!req.user.username) {
 			res.redirect('profile');
