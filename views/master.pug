@@ -55,11 +55,12 @@ html
 										a(href="/apply") Apply
 								li
 									a(href="/testdata") Insert Test Data
-
 								if (!userlevel)
 									li
 										a(href="/auth/google") Login
 								else
+									li 
+										a(href="/profile") Profile
 									li
 										a(href="/logout") Logout
 							ul#mobile-demo.side-nav
