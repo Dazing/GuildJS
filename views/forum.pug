@@ -9,6 +9,7 @@ block content
 		ul
 			each section in sections
 				div.collection.thread
-					a(href="/forum/section/"+section.sectionid).collection-item=section.name
-					
+					a(href="/forum/section/"+section.sectionid).collection-item 
+							h5 #{section.name} 
+							div.sectionDescription #{section.description}
 block footer

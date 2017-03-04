@@ -9,7 +9,11 @@ var forumSchema = new Schema({
 	},
 	name: {
 		type: String,
-		required: true,
+		required: true
+	},
+	description: {
+		type: String,
+		required: true
 	}
 });
 
@@ -29,6 +33,7 @@ forumSchema.methods.insertTestData = function() {
 
 		newSection.sectionid = mongoose.Types.ObjectId();
 		newSection.name = "section" + i;
+		newSection.description = "This is an an amazing description i would say";
 
 
 		newSection.save(function(err, savedSection){
