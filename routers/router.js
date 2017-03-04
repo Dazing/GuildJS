@@ -144,6 +144,34 @@ router.get('/forum/section/:id', function(req, res){
 		}
 	});
 });
+router.get('/forum/section/edit/:id', function(req, res){
+	forum.schema.methods.findById(req.params.id, function(err, section){
+		if (err) {
+			console.log(err);
+		}
+		else{
+			res.render('edit_section', {section: section});
+		}
+	});
+});
+router.post('/forum/section/edit/:id', ensureAuthenticated, function(req, res){
+	forum.schema.methods.updateSection(req.params.id, req.body.name, req.body.description, function(err, section){
+		if (err) {
+			console.log(err);
+		}else{
+			res.redirect('/forum');
+		}
+	});
+});
+router.get('/forum/section/delete/:id', ensureAuthenticated, function(req, res){
+	forum.schema.methods.deleteSection(req.params.id, function(err, section){
+		if (err) {
+			console.log(err);
+		}else{
+			res.redirect('/forum');
+		}
+	});
+});
 
 router.post('/forum/section/:id', ensureAuthenticated, function(req, res){
 	thread.schema.methods.addThread(req.params.id, req.body.threadname, req.body.comment, req.user, function(err, thread){

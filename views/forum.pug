@@ -9,14 +9,19 @@ block content
 		ul
 			each section in sections
 				div.collection.thread
+					a(href="/forum/section/edit/"+section.sectionid)
+						i.material-icons.right mode_edit
+					a(href="/forum/section/delete/"+section.sectionid)
+						i.material-icons.right delete
 					a(href="/forum/section/"+section.sectionid).collection-item 
-							h5 #{section.name} 
-							div.sectionDescription #{section.description}
+						h5 #{section.name} 
+						div.sectionDescription #{section.description}
 
 		form(method='POST' action='/forum').col.s12
 			div.input-field.col.s6
 				label(for="name") Section name
 				textarea(name="name" rows="5" ).tk-serenity.materialize-textarea
+
 			div.input-field.col.s6
 				label(for="description") Description
 				textarea(name="description" rows="5" ).tk-serenity.materialize-textarea
