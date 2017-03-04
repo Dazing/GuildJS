@@ -117,6 +117,15 @@ router.get('/forum', function(req, res){
 		}
 	});
 });
+router.post('/forum', ensureAuthenticated, function(req, res){
+	forum.schema.methods.addSection(req.body.name, req.body.description, function(err, thread){
+ 		if (err) {
+ 			console.log(err);
+ 		}else {
+			res.redirect('/forum');
+ 		}
+ 	});
+});
 
 router.get('/forum/section/:id', function(req, res){
 	forum.schema.methods.findById(req.params.id, function(err, section){
@@ -150,7 +159,6 @@ router.post('/forum/section/:id', ensureAuthenticated, function(req, res){
 
 
 });
-
 router.get('/forum/thread/:id', function(req, res){
 
  	thread.schema.methods.findById(req.params.id, function(err, thread){

@@ -110,7 +110,7 @@ threadSchema.methods.insertTestData = function() {
 				newThread.sectionid = section.sectionid;
 				newThread.name = "thread" + i;
 				var tmpUser;
-				user.schema.methods.findByUsername('Dazing', function(err, foundUser){
+				user.schema.methods.findByUsername('Tobbe', function(err, foundUser){
 					if (err) {
 						console.log(err);
 					}
