@@ -34,7 +34,7 @@ router.get( '/auth/google/callback',
 
 // Set request wide variables and lastpage for login redirect
 router.use('/:path',function (req, res, next){
- 	if ((!req.user)&&(req.params.path != "auth/google/callback")) {
+ 	if (req.params.path != "auth/google/callback") {
 		req.session.lastpage = req.params.path;
 	}
 	next();
@@ -46,6 +46,9 @@ router.use('*',function (req, res, next){
 	if(req.user){
 		res.locals.userlevel = req.user.usertype;
 		res.locals.userid = req.user.id;
+	}
+	if (req.params.path != "auth/google/callback") {
+		req.session.lastpage = "";
 	}
 	next();
 });
