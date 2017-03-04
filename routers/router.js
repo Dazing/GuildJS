@@ -71,7 +71,6 @@ router.get('/apply', ensureAuthenticated, function(req, res){
 });
 
 router.post('/apply', ensureAuthenticated,function(req, res){
-	console.log("POST Apply: "+JSON.stringify(req.body));
 	var inputApplication = req.body;
 	application.schema.methods.insertApplication(req.user.id, inputApplication, function(err, savedApp){
 		if(err){ redirect('/404') }
@@ -99,7 +98,6 @@ router.get('/recruitment', ensureAuthenticated, function(req, res){
 });
 
 router.get('/profile', ensureAuthenticated, function(req, res){
-	console.log(JSON.stringify(req.user));
 	user.schema.methods.findById(req.user.id, function(err, user){
 
 		if (err) {
@@ -108,7 +106,6 @@ router.get('/profile', ensureAuthenticated, function(req, res){
 
 		var tmpUser = {main:{}};
 
-		console.log("User (profile mongo): "+JSON.stringify(user));
 
 		if (user.id) 			{ tmpUser.id 			= user.userid };
 		if (user.username)		{ tmpUser.username 		= user.username };
@@ -118,7 +115,6 @@ router.get('/profile', ensureAuthenticated, function(req, res){
 		if (user.username) 		{ tmpUser.username 		= user.username };
 
 
-		console.log("TMPUser (profile mongo): "+JSON.stringify(tmpUser));
 		res.render('profile', {user: tmpUser});
 	});
 });
@@ -144,7 +140,6 @@ router.post('/profile', ensureAuthenticated, function(req, res){
 		if (tmpUser.server)		{ req.user.main.server 	= tmpUser.server };
 		if (tmpUser.username) 	{ req.user.username 	= tmpUser.username };
 
-		console.log("Req.user : "+JSON.stringify(req.user));
 
 		res.redirect('profile');
 	})
@@ -165,7 +160,6 @@ router.get('/forum', function(req, res){
 			console.log(err);
 		}
 		else {
-			console.log(sections);
 			res.render('forum', {sections: sections});
 		}
 	});
@@ -256,7 +250,6 @@ router.get('/forum/thread/:id', function(req, res){
 router.post('/forum/thread/:id', ensureAuthenticated, function(req, res){
 	var comment = req.body.comment;
 	var id = req.params.id;
-	console.log("id = :   " + id);
  	thread.schema.methods.addComment(id, comment, req.user, function(err, thread){
  		if (err) {
  			console.log(err);
