@@ -22,18 +22,30 @@ router.get( '/auth/google/callback',
 		{ failureRedirect: '/' }),
 	function (req, res, next) {
 
-		var redirectPath = "/"+req.session.lastpage;
-		res.redirect(redirectPath);
+		if (req.session.lastpage != undefined) {
+			var redirectPath = "/"+req.session.lastpage;
+			res.redirect(redirectPath);
+		}
+		else {
+			res.redirect('/');
+		}
+
 });
 
 // Set request wide variables and lastpage for login redirect
 router.use('/:path',function (req, res, next){
+ 	if ((!req.user)&&(req.params.path != "auth/google/callback")) {
+		req.session.lastpage = req.params.path;
+	}
+	next();
+});
+
+
+// Set request wide variables and lastpage for login redirect
+router.use('*',function (req, res, next){
 	if(req.user){
 		res.locals.userlevel = req.user.usertype;
 		res.locals.userid = req.user.id;
-	}
-	else if (req.params.path != "auth/google/callback") {
-		req.session.lastpage = req.params.path;
 	}
 	next();
 });

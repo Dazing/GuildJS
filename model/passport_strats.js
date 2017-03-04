@@ -32,7 +32,6 @@ passport.use('google', new GoogleStrategy({
 },
 function(accessToken, refreshToken, params, profile, done) {
 
-	console.log("Params Tokens: "+JSON.stringify(params));
 	process.nextTick(function () {
 
 		profile = minifyProfile(profile);
