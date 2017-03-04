@@ -4,7 +4,7 @@ extends master.pug
 block content
 
 	div.mainWrapper.container
-		h1 Forum view
+		h1 Forum
 
 		ul
 			each section in sections
@@ -12,4 +12,15 @@ block content
 					a(href="/forum/section/"+section.sectionid).collection-item 
 							h5 #{section.name} 
 							div.sectionDescription #{section.description}
+
+		form(method='POST' action='/forum').col.s12
+			div.input-field.col.s6
+				label(for="name") Section name
+				textarea(name="name" rows="5" ).tk-serenity.materialize-textarea
+			div.input-field.col.s6
+				label(for="description") Description
+				textarea(name="description" rows="5" ).tk-serenity.materialize-textarea
+			button(type="submit" name="action").btn.waves-effect.waves-light.left Submit
+				i.material-icons.left send
+				
 block footer

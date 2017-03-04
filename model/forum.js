@@ -25,6 +25,27 @@ forumSchema.methods.findById = function(id, callback) {
 	});
 };
 
+
+forumSchema.methods.addSection = function(name, description, callback) {
+
+		var newSection = new forum();
+
+		newSection.sectionid = mongoose.Types.ObjectId();
+		newSection.name = name;
+		newSection.description = description;
+
+		newSection.save(function(err, savedSection){
+			if (err) {
+				callback(err);
+			}else{
+				callback(null,savedSection);
+			}
+		});
+
+};
+
+
+
 forumSchema.methods.insertTestData = function() {
 	var i = 0;
 
