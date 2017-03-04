@@ -9,7 +9,7 @@ var config = require('../model/config.json');
 var user = require('../model/user.js');
 var forum = require('../model/forum.js');
 var thread = require('../model/thread.js');
-var events = require('../model/events.js');
+var application = require('../model/application.js');
 
 //var users = require('../model/user.js');
 
@@ -48,6 +48,8 @@ router.get('/apply', function(req, res){
 });
 
 router.post('/apply', function(req, res){
+	console.log("POST Apply: "+JSON.stringify(req.body));
+	var application = req.body;
 	res.send('POST from apply recived');
 });
 
@@ -235,8 +237,17 @@ function ensureAuthenticated(req, res, next) {
 		}
 	}
 	else {
-		res.redirect('/login');
+		res.redirect('/auth/google');
 	}
 }
+
+router.use(function (req, res, next) {
+  res.status(404).render('notfound');
+});
+
+router.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+});
 
 module.exports = router;
