@@ -129,4 +129,34 @@ $(document).ready(function($) {
 		},
 		limit: 10, // The max amount of results that can be shown at once. Default: Infinity.
 	});
+
+	/*$('#applySubmit').click(function (event) {
+		event.preventDefault();
+		//var pattern = (\p{L}(\p{L}|[0-9]){2,12}#[0-9]{4});
+
+		var name = $('#name').val();
+
+		var btag = $('#btag').val();
+		var name = $('#name').val();
+		var age = $('#age').val();
+		var main = $('#mainspec').val();
+		var offspec = $('#offspec').val();
+		var exp = $('#experience').val();
+		var hist = $('#history').val();
+		var expect = $('#expectations').val();
+		var uiurl = $('#uiurl').val();
+		var logs = $('#logs').val();
+		var learning = $('#learning').val();
+		var swpoints = $('#swpoints').val();
+		var improve = $('#improve').val();
+		var atten = $('#attendance').val();
+		var future = $('#future').val();
+		var voicecom = $('#voicecom').val();
+		var discovery = $('#discovery').val();
+		var other = $('#other').val();
+
+
+	});*/
+	//$("#applicationForm").validate();
+
 });
